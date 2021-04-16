@@ -1,6 +1,12 @@
 {
   "name": "diploma",
   "version": "0.0.0",
+  "private": true,
   "author": "Dmytrii Puzyr <slymahel@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "workspaces": [
+    "frontend",
+    "server",
+    "shared"
+  ]
 }
