@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.base.json",
+
+  "compilerOptions": {
+    "allowJs": true,
+
+    "target": "es2019",
+    "module": "esnext",
+
+    "jsx": "react",
+
+    "baseUrl": "./src",
+    "paths": {
+      "components/*": ["components/*"],
+      "utils/*": ["utils/*"]
+    }
+  },
+
+  "include": ["src"]
+}
