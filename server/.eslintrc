@@ -1,0 +1,41 @@
+{
+  "extends": ["airbnb-base", "../.eslintrc"],
+
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+
+  "rules": {
+    /// Import
+    "import/no-named-as-default": "off",
+    "import/newline-after-import": "warn",
+    "import/order": [
+      "warn",
+      {
+        "groups": ["unknown", ["external", "builtin"], "internal", ["sibling", "parent", "index"]],
+        "pathGroups": [
+          {
+            "pattern": "@prisma/client",
+            "group": "internal",
+            "position": "after"
+          }
+        ],
+        "newlines-between": "always"
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "import/extensions": ["warn", "never"]
+  },
+
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+
+  "env": {
+    "node": true,
+    "es6": true,
+    "jest": true
+  }
+}
