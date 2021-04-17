@@ -1,8 +1,10 @@
 import Koa from "koa";
+import { promisify } from "util";
 import type { Server } from "http";
 
 import { PrismaClient } from "@prisma/client";
-import { promisify } from "util";
+
+import { getGreeting } from "utils/greeting";
 
 const prisma = new PrismaClient();
 
@@ -18,7 +20,7 @@ export const initServer = async () => {
   await prisma.$connect();
 
   app.use(async (ctx) => {
-    ctx.body = "Hello World!";
+    ctx.body = getGreeting();
   });
 
   const server = app.listen({ port: 3000 }, () => {
