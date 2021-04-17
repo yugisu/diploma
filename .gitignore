@@ -4,6 +4,12 @@ node_modules/
 # Build files
 build/
 
+# Environment
+.env
+
+# DB data
+data/
+
 # Logs
 *.log
 

@@ -1,0 +1,14 @@
+# Development docker-compose
+version: '3'
+services:
+  database:
+    image: postgres:13
+    network_mode: host
+    environment:
+      POSTGRES_USER: development
+      POSTGRES_PASSWORD: development
+      PGDATA: /var/pgdata
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data:/var/pgdata
