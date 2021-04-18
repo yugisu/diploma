@@ -10,6 +10,7 @@
 
     /// TypeScript
     "@typescript-eslint/no-use-before-define": "error",
+    "@typescript-eslint/no-var-requires": "off",
 
     /// React
     "react/jsx-filename-extension": "off",
@@ -36,7 +37,20 @@
       }
     ],
     "import/prefer-default-export": "off",
-    "import/extensions": ["warn", "never"]
+    "import/extensions": ["warn", "never"],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.ts",
+          "**/*.spec.ts",
+          "**/*.test.tsx",
+          "**/*.spec.tsx",
+          "**/*.setup.js",
+          "**/*.config.js"
+        ]
+      }
+    ]
   },
 
   "settings": {
@@ -49,5 +63,7 @@
     "browser": true,
     "es6": true,
     "jest": true
-  }
+  },
+
+  "ignorePatterns": "build/"
 }

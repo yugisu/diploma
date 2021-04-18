@@ -1,19 +1,19 @@
-const { compilerOptions } = require("./tsconfig");
+const { compilerOptions } = require('./tsconfig')
 
 module.exports = {
-  preset: "ts-jest",
+  preset: 'ts-jest',
   transform: {
-    "^.+\\.(ts|js)x?$": "ts-jest",
+    '^.+\\.(ts|js)x?$': 'ts-jest',
   },
 
   clearMocks: true,
 
-  coverageDirectory: "coverage",
-  coverageProvider: "v8",
+  coverageDirectory: 'coverage',
+  coverageProvider: 'v8',
 
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 
   moduleNameMapper: Object.keys(compilerOptions.paths)
-    .map((pathMapping) => pathMapping.split("/*")[0])
+    .map((pathMapping) => pathMapping.split('/*')[0])
     .reduce((acc, dirName) => ({ ...acc, [`^${dirName}/(.*)$`]: `<rootDir>/src/${dirName}/$1` }), {}),
-};
+}

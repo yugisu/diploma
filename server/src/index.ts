@@ -1,35 +1,35 @@
-import type { Server } from "http";
+import type { Server } from 'http'
 
-import { initServer, shutdownServer } from "./server";
+import { initServer, shutdownServer } from './server'
 
 const enableGracefulShutdown = (httpServer: Server) => {
-  process.on("SIGTERM", async () => {
-    console.log("Graceful shutdown...");
+  process.on('SIGTERM', async () => {
+    console.log('Graceful shutdown...')
 
-    shutdownServer(httpServer);
-  });
+    shutdownServer(httpServer)
+  })
 
-  process.on("uncaughtException", async (err) => {
-    console.error(`Uncaught exception: ${err.stack?.split("\n")}`);
+  process.on('uncaughtException', async (err) => {
+    console.error(`Uncaught exception: ${err.stack?.split('\n')}`)
 
-    shutdownServer(httpServer);
-  });
+    shutdownServer(httpServer)
+  })
 
-  process.on("unhandledRejection", async (err: Error) => {
-    console.error(`Unhandled rejection: ${err?.stack?.split("\n")}`);
+  process.on('unhandledRejection', async (err: Error) => {
+    console.error(`Unhandled rejection: ${err?.stack?.split('\n')}`)
 
-    shutdownServer(httpServer);
-  });
-};
+    shutdownServer(httpServer)
+  })
+}
 
 const main = async () => {
   try {
-    const server = await initServer();
+    const server = await initServer()
 
-    enableGracefulShutdown(server);
+    enableGracefulShutdown(server)
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
 
-main();
+main()

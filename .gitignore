@@ -15,3 +15,6 @@ data/
 
 # Coverage
 coverage/
+
+# Frontend misc files
+.snowpack
