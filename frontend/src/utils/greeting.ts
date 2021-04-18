@@ -1,1 +1,3 @@
-export const getGreeting = () => 'Hello world!'
+import { getSharedGreeting } from '@diploma/shared'
+
+export const getGreeting = () => getSharedGreeting().replace(/ shared/i, '')

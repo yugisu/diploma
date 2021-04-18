@@ -11,7 +11,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
 
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
 
   moduleNameMapper: Object.keys(compilerOptions.paths)
     .map((pathMapping) => pathMapping.split('/*')[0])

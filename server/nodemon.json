@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/nodemon.json",
+  "quiet": true,
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "ext": "js,ts,json",
+  "watch": [
+    "src/**/*",
+    "../shared/build/**/*"
+  ],
+  "exec": "yarn start:once"
+}

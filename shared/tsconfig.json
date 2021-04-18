@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.json",
+
+  "compilerOptions": {
+    "target": "es2019",
+    "lib": ["esnext"],
+
+    "module": "commonjs",
+
+    "noEmit": false,
+    "declaration": true,
+    "outDir": "build"
+  },
+
+  "exclude": ["node_modules/", "build/"]
+}

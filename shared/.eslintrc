@@ -1,23 +1,13 @@
 {
-  "extends": ["airbnb", "../.eslintrc", "plugin:react-hooks/recommended"],
+  "extends": ["airbnb-base", "../.eslintrc"],
 
   "parserOptions": {
     "project": "./tsconfig.json"
   },
 
   "rules": {
-    "no-use-before-define": "off",
-
     /// TypeScript
-    "@typescript-eslint/no-use-before-define": "error",
     "@typescript-eslint/no-var-requires": "off",
-
-    /// React
-    "react/jsx-filename-extension": "off",
-
-    /// React hooks
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "error",
 
     /// Import
     "import/no-named-as-default": "off",
@@ -28,7 +18,7 @@
         "groups": ["unknown", ["external", "builtin"], "internal", ["sibling", "parent", "index"]],
         "pathGroups": [
           {
-            "pattern": "components/**",
+            "pattern": "@prisma/client",
             "group": "internal",
             "position": "after"
           }
@@ -41,14 +31,7 @@
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": [
-          "**/*.test.ts",
-          "**/*.spec.ts",
-          "**/*.test.tsx",
-          "**/*.spec.tsx",
-          "**/*.setup.js",
-          "**/*.config.js"
-        ]
+        "devDependencies": ["./build.js"]
       }
     ]
   },
@@ -60,7 +43,7 @@
   },
 
   "env": {
-    "browser": true,
+    "node": true,
     "es6": true,
     "jest": true
   },
