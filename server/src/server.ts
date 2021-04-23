@@ -5,9 +5,9 @@ import { ApolloServer } from 'apollo-server-koa'
 
 import { getGqlSchema } from 'provided/graphql'
 
-const prisma = new PrismaClient()
-
 export const initServer = async () => {
+  const prisma = new PrismaClient()
+
   await prisma.$connect()
 
   const app = new Koa()
@@ -30,8 +30,4 @@ export const initServer = async () => {
   })
 
   return server
-}
-
-export const shutdownServer = async () => {
-  await prisma.$disconnect()
 }
