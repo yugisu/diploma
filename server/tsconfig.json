@@ -2,15 +2,21 @@
   "extends": "../tsconfig.json",
 
   "compilerOptions": {
+    "allowJs": true,
     "target": "es2019",
     "lib": ["esnext"],
 
     "module": "commonjs",
 
-    "noEmit": true,
+    "noEmit": false,
+    "outDir": "./build",
+    "sourceMap": true,
 
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
 
-  "exclude": ["node_modules/", "build/"]
+  "include": ["src"]
 }

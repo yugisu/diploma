@@ -18,3 +18,6 @@ coverage/
 
 # Frontend misc files
 .snowpack
+
+# Generated runtime files
+generated/

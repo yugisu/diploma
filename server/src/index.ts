@@ -1,24 +1,24 @@
-import type { Server } from 'http'
+import 'reflect-metadata'
 
 import { initServer, shutdownServer } from './server'
 
-const enableGracefulShutdown = (httpServer: Server) => {
+const enableGracefulShutdown = () => {
   process.on('SIGTERM', async () => {
     console.log('Graceful shutdown...')
 
-    shutdownServer(httpServer)
+    shutdownServer().catch((error) => console.error('Failed to shutdown server', error))
   })
 
   process.on('uncaughtException', async (err) => {
     console.error(`Uncaught exception: ${err.stack?.split('\n')}`)
 
-    shutdownServer(httpServer)
+    shutdownServer().catch((error) => console.error('Failed to shutdown server', error))
   })
 
   process.on('unhandledRejection', async (err: Error) => {
     console.error(`Unhandled rejection: ${err?.stack?.split('\n')}`)
 
-    shutdownServer(httpServer)
+    shutdownServer().catch((error) => console.error('Failed to shutdown server', error))
   })
 }
 
@@ -26,7 +26,7 @@ const main = async () => {
   try {
     const server = await initServer()
 
-    enableGracefulShutdown(server)
+    enableGracefulShutdown()
   } catch (error) {
     console.error(error)
   }

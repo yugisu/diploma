@@ -6,6 +6,9 @@
   },
 
   "rules": {
+    /// TypeScript
+    "class-methods-use-this": "off",
+
     /// Import
     "import/no-named-as-default": "off",
     "import/newline-after-import": "warn",
