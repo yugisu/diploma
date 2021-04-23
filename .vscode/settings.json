@@ -7,5 +7,9 @@
   "files.trimFinalNewlines": true,
   "files.eol": "\n",
 
+  "[prisma]": {
+    "editor.formatOnSave": true
+  },
+
   "typescript.tsdk": "node_modules/typescript/lib"
 }

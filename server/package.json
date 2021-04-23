@@ -5,15 +5,19 @@
   "scripts": {
     "prestart": "yarn workspace @diploma/shared build",
     "start": "nodemon --config nodemon.json",
-    "prestart:once": "tsc --noEmit > /dev/null 2>&1",
-    "start:once": "babel-node -x \".js,.ts\" ./src/index.ts",
+    "prestart:once": "tsc --noEmit",
+    "start:once": "cross-env NODE_ENV=development babel-node -x \".js,.ts\" ./src/index.ts",
     "build": "rimraf build/ && babel src --out-dir build --ignore **/*.test.ts -x \".js,.ts,.json\"",
     "test": "jest"
   },
   "dependencies": {
     "@diploma/shared": "0.0.0",
     "@prisma/client": "^2.21.2",
-    "koa": "^2.13.1"
+    "apollo-server-koa": "^2.23.0",
+    "graphql": "^15.5.0",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
@@ -23,6 +27,7 @@
     "@babel/preset-typescript": "^7.13.0",
     "@types/jest": "^26.0.22",
     "@types/koa": "^2.13.1",
+    "@types/koa-router": "^7.4.2",
     "@types/node": "^14.14.41",
     "babel-plugin-module-resolver": "^4.1.0",
     "cross-env": "^7.0.3",
