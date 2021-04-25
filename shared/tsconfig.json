@@ -4,6 +4,7 @@
   "compilerOptions": {
     "target": "es2019",
     "lib": ["esnext"],
+    "allowSyntheticDefaultImports": false,
 
     "module": "commonjs",
 
@@ -12,5 +13,5 @@
     "outDir": "build"
   },
 
-  "exclude": ["node_modules/", "build/"]
+  "include": ["src"]
 }
