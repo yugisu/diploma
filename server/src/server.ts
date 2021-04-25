@@ -28,8 +28,21 @@ export const initServer = async () => {
       key: 'decodedToken',
       cookie: 'auth',
     }).unless({
-      // All API endpoints should be guarded by authentication except of authentication ones (excluding /logout)
-      path: [/^\/api\/auth(?!\/logout)/],
+      custom: (ctx) => {
+        // Disable authentication for GraphQL Playground
+        if (process.env.NODE_ENV === 'development' && ctx.url === '/graphql' && ctx.method === 'GET') {
+          return true
+        }
+
+        // All API endpoints are guarded by authentication except of authentication ones (excluding /logout)
+        const whitelistedUrlPatterns = [/^\/api\/auth(?!\/logout)/]
+
+        if (whitelistedUrlPatterns.some((pattern) => pattern.test(ctx.url))) {
+          return true
+        }
+
+        return false
+      },
     }),
   )
 
@@ -74,7 +87,6 @@ export const initServer = async () => {
   const apolloServer = new ApolloServer({
     schema: graphqlSchema,
     context: (ctx: Context) => ctx,
-    playground: {},
   })
 
   await apolloServer.start()
