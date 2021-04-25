@@ -5,7 +5,7 @@ import { ApolloServer } from 'apollo-server-koa'
 import jwt from 'koa-jwt'
 import Router from '@koa/router'
 
-import type { JwtTokenData } from 'types/user'
+import type { JwtTokenData } from 'types/auth'
 import { getGqlSchema } from 'provided/graphql'
 import authRouter from 'provided/routes/auth'
 
