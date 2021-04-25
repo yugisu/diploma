@@ -6,8 +6,10 @@
   },
 
   "rules": {
-    /// TypeScript
     "class-methods-use-this": "off",
+
+    /// TypeScript
+    "@typescript-eslint/ban-types": "off",
 
     /// Import
     "import/no-named-as-default": "off",

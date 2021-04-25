@@ -13,7 +13,19 @@ generator typegraphql {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  name      String
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  name         String
+  email        String        @unique
+  /// @TypeGraphQL.omit(output: true, input: true)
+  password     String
+  userSessions UserSession[]
+}
+
+model UserSession {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  endedAt   DateTime?
 }
