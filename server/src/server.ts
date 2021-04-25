@@ -14,11 +14,11 @@ export const initServer = async () => {
 
   // Set up Prisma
 
-  const prisma = new PrismaClient()
+  const prismaClient = new PrismaClient()
 
-  await prisma.$connect()
+  await prismaClient.$connect()
 
-  app.context.prisma = prisma
+  app.context.prisma = prismaClient
 
   // Apply middlewares
 
@@ -86,7 +86,11 @@ export const initServer = async () => {
 
   const apolloServer = new ApolloServer({
     schema: graphqlSchema,
-    context: (ctx: Context) => ctx,
+    context: ({ ctx }: { ctx: Context }): GqlContext => {
+      const { prisma, state } = ctx
+
+      return { prisma, state }
+    },
   })
 
   await apolloServer.start()

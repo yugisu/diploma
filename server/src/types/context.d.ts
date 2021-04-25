@@ -20,7 +20,7 @@ declare module 'koa' {
 declare global {
   type Context = Koa.Context
 
-  type GqlContext = Context
+  type GqlContext = Pick<Context, 'prisma' | 'state'>
 }
 
 export {}
