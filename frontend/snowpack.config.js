@@ -19,4 +19,7 @@ module.exports = {
     // Map `shared` lib to be directly handled by the Snowpack
     '@diploma/shared': '../shared/src',
   },
+  buildOptions: {
+    sourcemap: true,
+  },
 }

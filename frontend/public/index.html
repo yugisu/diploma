@@ -5,11 +5,52 @@
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Web site created using create-snowpack-app" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
     <title>Snowpack App</title>
+
+    <style>
+      :root {
+        --black: #1d2429;
+        --darkGrey: #2f3336;
+        --white: #fff;
+        --orange: #ffae4a;
+      }
+
+      html {
+        --primary: var(--orange);
+
+        --bg: var(--white);
+        --text: var(--black);
+
+        background-color: var(--bg);
+        color: var(--text);
+      }
+
+      html.dark {
+        --primary: var(--orange);
+
+        --bg: var(--darkGrey);
+        --text: var(--white);
+
+        background-color: var(--bg);
+        color: var(--text);
+      }
+    </style>
+
+    <script>
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches && localStorage.getItem('preferredTheme') !== 'light') {
+        document.documentElement.classList.add('dark')
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+
     <script type="module" src="/build/index.js"></script>
   </body>
 </html>

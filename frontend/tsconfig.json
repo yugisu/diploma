@@ -9,12 +9,15 @@
 
     "jsx": "react",
 
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "paths": {
-      "components/*": ["./src/components/*"],
-      "utils/*": ["./src/utils/*"]
+      "components/*": ["./components/*"],
+      "containers/*": ["./containers/*"],
+      "utils/*": ["./utils/*"],
+      "styles/*": ["./styles/*"],
+      "vars/*": ["./vars/*"]
     }
   },
 
-  "exclude": ["node_modules/", "build/"]
+  "include": ["src"]
 }
