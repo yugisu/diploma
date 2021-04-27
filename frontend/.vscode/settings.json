@@ -6,5 +6,12 @@
   "files.trimFinalNewlines": true,
   "files.eol": "\n",
 
+  "[html]": {
+    "editor.formatOnSave": true
+  },
+  "[css]": {
+    "editor.formatOnSave": true
+  },
+
   "typescript.tsdk": "../node_modules/typescript/lib"
 }

@@ -10,8 +10,6 @@ import { preferredThemeVar } from 'vars/preferredThemeVar'
 import { AuthPage } from 'pages/AuthPage/AuthPage'
 import { MainPage } from 'pages/MainPage/MainPage'
 
-import { GlobalStyles } from 'components/GlobalStyles/GlobalStyles'
-
 export const App = () => {
   const preferredTheme = useReactiveVar(preferredThemeVar)
 
@@ -22,8 +20,6 @@ export const App = () => {
 
   return (
     <ThemeProvider theme={Themes[preferredTheme]}>
-      <GlobalStyles />
-
       <button onClick={() => preferredThemeVar(preferredTheme === 'light' ? 'dark' : 'light')} type="button">
         Toggle theme
       </button>
