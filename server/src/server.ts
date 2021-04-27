@@ -4,6 +4,8 @@ import { PrismaClient } from '@prisma/client'
 import { ApolloServer } from 'apollo-server-koa'
 import jwt from 'koa-jwt'
 import Router from '@koa/router'
+import cors from '@koa/cors'
+import { whitelistedUrlPatterns } from '@diploma/shared'
 
 import type { JwtTokenData } from 'types/auth'
 import { getGqlSchema } from 'provided/graphql'
@@ -22,6 +24,8 @@ export const initServer = async () => {
 
   // Apply middlewares
 
+  app.use(cors())
+
   app.use(
     jwt({
       secret: process.env.JWT_SECRET,
@@ -35,9 +39,11 @@ export const initServer = async () => {
         }
 
         // All API endpoints are guarded by authentication except of authentication ones (excluding /logout)
-        const whitelistedUrlPatterns = [/^\/api\/auth(?!\/logout)/]
-
-        if (whitelistedUrlPatterns.some((pattern) => pattern.test(ctx.url))) {
+        if (
+          whitelistedUrlPatterns.some((pattern) =>
+            typeof pattern === 'string' ? ctx.url.endsWith(pattern) : pattern.test(ctx.url),
+          )
+        ) {
           return true
         }
 
@@ -73,6 +79,10 @@ export const initServer = async () => {
   // Create root API router
 
   const apiRouter = new Router<{}, Context>({ prefix: '/api' })
+
+  apiRouter.get('/ping', (ctx) => {
+    ctx.status = 204
+  })
 
   apiRouter.use(authRouter.routes(), authRouter.allowedMethods())
 

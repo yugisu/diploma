@@ -22,4 +22,7 @@ module.exports = {
   buildOptions: {
     sourcemap: true,
   },
+  packageOptions: {
+    knownEntrypoints: ['zod'],
+  },
 }

@@ -28,6 +28,16 @@
         "groups": ["unknown", ["external", "builtin"], "internal", ["sibling", "parent", "index"]],
         "pathGroups": [
           {
+            "pattern": "pages/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "containers/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
             "pattern": "components/**",
             "group": "internal",
             "position": "after"

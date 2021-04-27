@@ -15,7 +15,11 @@ export const UserRegistrationModel = z
     },
   )
 
+export type UserRegistrationModelT = z.infer<typeof UserRegistrationModel>
+
 export const UserLoginModel = z.object({
   email: z.string().email(),
   password: z.string().nonempty(),
 })
+
+export type UserLoginModelT = z.infer<typeof UserLoginModel>

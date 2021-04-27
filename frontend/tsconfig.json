@@ -13,9 +13,12 @@
     "paths": {
       "components/*": ["./components/*"],
       "containers/*": ["./containers/*"],
+      "pages/*": ["./pages/*"],
       "utils/*": ["./utils/*"],
       "styles/*": ["./styles/*"],
-      "vars/*": ["./vars/*"]
+      "vars/*": ["./vars/*"],
+      "services/*": ["./services/*"],
+      "constants/*": ["./constants/*"]
     }
   },
 
