@@ -1,4 +1,5 @@
 export type ProjectTheme = {
+  name: keyof typeof Themes
   colors: {
     bg: string
     text: string
@@ -14,6 +15,7 @@ const Colors = {
 }
 
 const lightTheme: ProjectTheme = {
+  name: 'light',
   colors: {
     bg: Colors.white,
     text: Colors.black,
@@ -22,6 +24,7 @@ const lightTheme: ProjectTheme = {
 }
 
 const darkTheme: ProjectTheme = {
+  name: 'dark',
   colors: {
     bg: Colors.darkGrey,
     text: Colors.white,

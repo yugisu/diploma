@@ -1,0 +1,35 @@
+:root {
+  --black: #1d2429;
+  --darkGrey: #2f3336;
+  --white: #fff;
+  --orange: #ffae4a;
+}
+
+html {
+  color-scheme: light;
+
+  --primary: var(--orange);
+
+  --bg: var(--white);
+  --text: var(--black);
+
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+html.dark {
+  color-scheme: dark;
+
+  --primary: var(--orange);
+
+  --bg: var(--darkGrey);
+  --text: var(--white);
+
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Override sb theming addon transition */
+html {
+  transition: background-color cubic-bezier(0.98, 0.06, 1, 0.28) 300ms;
+}

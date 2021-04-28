@@ -5,23 +5,33 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
-    "test": "jest"
+    "test": "jest",
+    "storybook": "start-storybook -p 6006"
   },
   "dependencies": {
     "@apollo/client": "^3.3.15",
     "@diploma/shared": "0.0.0",
+    "formik": "^2.2.6",
     "graphql": "^15.5.0",
+    "history": "^5.0.0",
     "ky": "^0.27.0",
     "polished": "^4.1.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-router-dom": "^6.0.0-beta.0",
-    "styled-components": "^5.2.3"
+    "styled-components": "^5.2.3",
+    "styled-system": "^5.1.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.13.16",
+    "@react-theming/storybook-addon": "^1.1.1",
     "@snowpack/plugin-dotenv": "^2.1.0",
     "@snowpack/plugin-react-refresh": "^2.4.0",
     "@snowpack/plugin-typescript": "^1.2.0",
+    "@storybook/addon-actions": "^6.2.9",
+    "@storybook/addon-essentials": "^6.2.9",
+    "@storybook/addon-links": "^6.2.9",
+    "@storybook/react": "^6.2.9",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.0.0",
     "@types/jest": "^26.0.22",
@@ -29,6 +39,8 @@
     "@types/react-dom": "^17.0.0",
     "@types/snowpack-env": "^2.3.2",
     "@types/styled-components": "^5.1.9",
+    "@types/styled-system": "^5.1.11",
+    "babel-loader": "^8.2.2",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-import-resolver-typescript": "^2.4.0",
     "eslint-plugin-import": "^2.22.1",

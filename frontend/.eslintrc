@@ -2,7 +2,7 @@
   "extends": ["airbnb", "../.eslintrc", "plugin:react-hooks/recommended"],
 
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": ["./tsconfig.json", "./tsconfig.eslint.json"]
   },
 
   "rules": {
@@ -14,10 +14,15 @@
 
     /// React
     "react/jsx-filename-extension": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": "off",
 
     /// React hooks
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
+
+    /// jsx-a11y
+    "jsx-a11y/label-has-associated-control": "off",
 
     /// Import
     "import/no-named-as-default": "off",
@@ -49,7 +54,7 @@
     "import/prefer-default-export": "off",
     "import/extensions": ["warn", "never"],
     "import/no-extraneous-dependencies": [
-      "error",
+      "warn",
       {
         "devDependencies": [
           "**/*.test.ts",
@@ -57,7 +62,8 @@
           "**/*.test.tsx",
           "**/*.spec.tsx",
           "**/*.setup.js",
-          "**/*.config.js"
+          "**/*.config.js",
+          "**/*.stories.tsx"
         ]
       }
     ]

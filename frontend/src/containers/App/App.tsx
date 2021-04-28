@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { ThemeProvider } from 'styled-components'
 import { useReactiveVar } from '@apollo/client'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 import { Themes } from 'styles/theme'
 import { authService } from 'services/authService'
@@ -11,20 +12,22 @@ import { AuthPage } from 'pages/AuthPage/AuthPage'
 import { MainPage } from 'pages/MainPage/MainPage'
 
 export const App = () => {
-  const preferredTheme = useReactiveVar(preferredThemeVar)
-
+  useEffect(() => void authService.checkToken(), [])
   const isAuthenticated = useReactiveVar(authVar)
-  const [checkingAuthentication, setCheckingAuthentication] = useState(true)
 
-  useEffect(() => void authService.checkToken().then(() => setCheckingAuthentication(false)), [])
+  const preferredTheme = useReactiveVar(preferredThemeVar)
 
   return (
     <ThemeProvider theme={Themes[preferredTheme]}>
-      <button onClick={() => preferredThemeVar(preferredTheme === 'light' ? 'dark' : 'light')} type="button">
-        Toggle theme
-      </button>
+      <BrowserRouter>
+        {isAuthenticated !== undefined && (
+          <Routes>
+            <Route path="auth/*" element={isAuthenticated ? <Navigate to="/" replace /> : <AuthPage />} />
 
-      {!checkingAuthentication && <>{isAuthenticated ? <MainPage /> : <AuthPage />}</>}
+            <Route path="/*" element={!isAuthenticated ? <Navigate to="/auth" replace /> : <MainPage />} />
+          </Routes>
+        )}
+      </BrowserRouter>
     </ThemeProvider>
   )
 }
