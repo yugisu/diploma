@@ -13,16 +13,15 @@ module.exports = {
     public: { url: '/', static: true },
     src: { url: '/build' },
   },
+  routes: [{ match: 'routes', src: '.*', dest: '/index.html' }],
+
   plugins: ['@snowpack/plugin-typescript', '@snowpack/plugin-react-refresh', '@snowpack/plugin-dotenv'],
   alias: {
     ...importAliasesFromTsconfig,
     // Map `shared` lib to be directly handled by the Snowpack
     '@diploma/shared': '../shared/src',
   },
-  buildOptions: {
-    sourcemap: true,
-  },
   packageOptions: {
-    knownEntrypoints: ['zod'],
+    knownEntrypoints: ['zod', 'ts-invariant'],
   },
 }
