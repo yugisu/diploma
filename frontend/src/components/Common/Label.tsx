@@ -1,11 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { space, SpaceProps } from 'styled-system'
+import { space, SpaceProps, layout, LayoutProps } from 'styled-system'
 
 type Props = {
   description: React.ReactNode
   control: React.ReactNode
+
+  fluid?: boolean
 } & SpaceProps &
+  LayoutProps &
   Omit<React.LabelHTMLAttributes<HTMLLabelElement>, 'children'>
 
 export const Label = ({ description, control, ...props }: Props) => (
@@ -16,13 +19,21 @@ export const Label = ({ description, control, ...props }: Props) => (
   </Inner>
 )
 
-const Inner = styled.label`
+const Inner = styled.label<{ fluid?: boolean }>`
+  flex-grow: 0;
+  width: ${(props) => (props.fluid ? '100%' : '15rem')};
+
   margin-bottom: 1rem;
 
   display: flex;
   flex-direction: column;
 
   ${space}
+  ${layout}
+
+  & > input {
+    width: 100%;
+  }
 `
 
 const Description = styled.div`

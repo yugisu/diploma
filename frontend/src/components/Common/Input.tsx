@@ -1,23 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
-import { rgba, transparentize } from 'polished'
-import { space, SpaceProps } from 'styled-system'
+import { transparentize } from 'polished'
+import { space, SpaceProps, layout, LayoutProps } from 'styled-system'
 
 type Props = {
   fluid?: boolean
 } & SpaceProps &
+  LayoutProps &
   React.InputHTMLAttributes<HTMLInputElement>
 
 export const Input = (props: Props) => <Inner {...props} />
 
-export const Inner = styled.input<{ fluid?: boolean } & SpaceProps>`
+export const Inner = styled.input<{ fluid?: boolean }>`
+  max-width: 100%;
   width: ${(props) => (props.fluid ? '100%' : '15rem')};
 
   padding: 0.5rem 0.75rem;
 
   color: inherit;
 
-  background-color: ${(props) => (props.theme.name === 'light' ? rgba(0, 0, 0, 0.01) : rgba(255, 255, 255, 0.05))};
+  background-color: ${(props) => transparentize(0.9, props.theme.colors.gray10)};
 
   border: solid 1px ${(props) => transparentize(0.9, props.theme.colors.text)};
   border-radius: 0.25rem;
@@ -44,4 +46,5 @@ export const Inner = styled.input<{ fluid?: boolean } & SpaceProps>`
   }
 
   ${space}
+  ${layout}
 `
