@@ -40,7 +40,7 @@ const Inner = styled.button<{
     props.primary &&
     css`
       color: ${props.theme.colors.white};
-      background-color: ${props.theme.colors.orange13};
+      background-color: ${props.theme.colors.primary};
       border-color: ${transparentize(0.7, props.theme.colors.primary)};
     `}
 
