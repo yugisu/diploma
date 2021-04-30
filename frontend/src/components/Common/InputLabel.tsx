@@ -11,7 +11,7 @@ type Props = {
   LayoutProps &
   Omit<React.LabelHTMLAttributes<HTMLLabelElement>, 'children'>
 
-export const Label = ({ description, control, ...props }: Props) => (
+export const InputLabel = ({ description, control, ...props }: Props) => (
   <Inner {...props}>
     <Description>{description}</Description>
 
