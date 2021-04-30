@@ -5,8 +5,8 @@ import { useFormik } from 'formik'
 
 import { authService } from 'services/authService'
 
+import { InputLabel } from 'components/Common/InputLabel'
 import { Input } from 'components/Common/Input'
-import { Label } from 'components/Common/Label'
 
 export const LoginCard = () => {
   const { values, handleSubmit, handleChange } = useFormik({
@@ -19,37 +19,38 @@ export const LoginCard = () => {
   })
 
   return (
-    <Container onSubmit={handleSubmit}>
+    <form className="px-8 py-12 shadow-md rounded" onSubmit={handleSubmit}>
       <h1>Login</h1>
 
-      <Label
+      <InputLabel
         description="Email"
         control={
           <Input
+            className="p-1 border-solid shadow"
             name="email"
             value={values.email}
             onChange={handleChange}
             type="text"
             placeholder="Email"
-            fluid
-            autoFocus
           />
         }
+        fluid
       />
 
-      <Label
+      <InputLabel
         description="Password"
         control={
           <Input
+            className="p-1 border-solid shadow"
             name="password"
             value={values.password}
             onChange={handleChange}
             type="password"
             placeholder="Password"
-            fluid
           />
         }
         marginBottom="1rem"
+        fluid
       />
 
       <button type="submit">Submit</button>
@@ -57,7 +58,7 @@ export const LoginCard = () => {
       <Link to="../registration" style={{ alignSelf: 'center' }}>
         Create account
       </Link>
-    </Container>
+    </form>
   )
 }
 

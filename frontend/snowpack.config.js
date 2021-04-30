@@ -15,7 +15,12 @@ module.exports = {
   },
   routes: [{ match: 'routes', src: '.*', dest: '/index.html' }],
 
-  plugins: ['@snowpack/plugin-typescript', '@snowpack/plugin-react-refresh', '@snowpack/plugin-dotenv'],
+  plugins: [
+    '@snowpack/plugin-postcss',
+    '@snowpack/plugin-typescript',
+    '@snowpack/plugin-react-refresh',
+    '@snowpack/plugin-dotenv',
+  ],
   alias: {
     ...importAliasesFromTsconfig,
     // Map `shared` lib to be directly handled by the Snowpack

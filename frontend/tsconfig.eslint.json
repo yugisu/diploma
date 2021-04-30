@@ -1,4 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["snowpack.config.js", "jest.config.js", ".storybook"]
+  "include": ["**/*.config.js", ".storybook"]
 }
