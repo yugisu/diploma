@@ -12,6 +12,7 @@
     "@apollo/client": "^3.3.15",
     "@diploma/shared": "0.0.0",
     "@headlessui/react": "^1.1.1",
+    "@heroicons/react": "^1.0.1",
     "clsx": "^1.1.1",
     "formik": "^2.2.6",
     "graphql": "^15.5.0",
