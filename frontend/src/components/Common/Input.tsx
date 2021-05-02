@@ -13,7 +13,7 @@ export const Input = ({ className, fluid, ...props }: Props) => (
       'bg-gray-400 bg-opacity-10 focus:bg-transparent',
       'shadow-sm rounded',
       'focus:outline-none border border-solid border-gray-400 border-opacity-20 focus:border-primary focus:border-opacity-100 focus:ring ring-primary ring-opacity-10',
-      'placeholder-current placeholder-opacity-50 focus:placeholder-opacity-90',
+      'placeholder-gray-400 placeholder-opacity-50 focus:placeholder-opacity-90',
       fluid ? 'w-full' : 'w-60',
       className,
     )}
@@ -21,7 +21,7 @@ export const Input = ({ className, fluid, ...props }: Props) => (
   />
 )
 
-export const Inner = styled.input`
+const Inner = styled.input`
   /* Disable autocompletion styles */
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
