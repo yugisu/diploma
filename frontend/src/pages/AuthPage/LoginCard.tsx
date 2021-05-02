@@ -19,21 +19,12 @@ export const LoginCard = () => {
   })
 
   return (
-    <form className="px-8 py-12 shadow-md rounded" onSubmit={handleSubmit}>
-      <h1>Login</h1>
+    <form className="px-10 py-20 shadow-lg rounded border border-gray-400 border-opacity-20" onSubmit={handleSubmit}>
+      <h1 className="text-4xl">Login</h1>
 
       <InputLabel
         description="Email"
-        control={
-          <Input
-            className="p-1 border-solid shadow"
-            name="email"
-            value={values.email}
-            onChange={handleChange}
-            type="text"
-            placeholder="Email"
-          />
-        }
+        control={<Input name="email" value={values.email} onChange={handleChange} type="text" placeholder="Email" />}
         fluid
       />
 
@@ -41,7 +32,6 @@ export const LoginCard = () => {
         description="Password"
         control={
           <Input
-            className="p-1 border-solid shadow"
             name="password"
             value={values.password}
             onChange={handleChange}
@@ -61,15 +51,3 @@ export const LoginCard = () => {
     </form>
   )
 }
-
-const Container = styled.form`
-  min-width: 25rem;
-
-  padding: 3rem 2rem 4rem;
-  display: flex;
-  flex-direction: column;
-
-  background-color: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.07), 0 3px 6px rgba(0, 0, 0, 0.15);
-  border-radius: 0.2rem;
-`

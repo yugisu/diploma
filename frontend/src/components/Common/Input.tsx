@@ -1,50 +1,32 @@
 import React from 'react'
 import styled from 'styled-components'
-import { transparentize } from 'polished'
-import { space, SpaceProps, layout, LayoutProps } from 'styled-system'
+import clsx from 'clsx'
 
 type Props = {
   fluid?: boolean
-} & SpaceProps &
-  LayoutProps &
-  React.InputHTMLAttributes<HTMLInputElement>
+} & React.InputHTMLAttributes<HTMLInputElement>
 
-export const Input = (props: Props) => <Inner {...props} />
+export const Input = ({ className, fluid, ...props }: Props) => (
+  <Inner
+    className={clsx(
+      'py-2 px-3 max-w-full',
+      'bg-gray-400 bg-opacity-10 focus:bg-transparent',
+      'shadow-sm rounded',
+      'focus:outline-none border border-solid border-gray-400 border-opacity-20 focus:border-primary focus:border-opacity-100 focus:ring ring-primary ring-opacity-10',
+      'placeholder-current placeholder-opacity-50 focus:placeholder-opacity-90',
+      fluid ? 'w-full' : 'w-60',
+      className,
+    )}
+    {...props}
+  />
+)
 
-export const Inner = styled.input<{ fluid?: boolean }>`
-  max-width: 100%;
-  width: ${(props) => (props.fluid ? '100%' : '15rem')};
-
-  padding: 0.5rem 0.75rem;
-
-  color: inherit;
-
-  background-color: ${(props) => transparentize(0.9, props.theme.colors.gray10)};
-
-  border: solid 1px ${(props) => transparentize(0.9, props.theme.colors.text)};
-  border-radius: 0.25rem;
-
-  &::placeholder {
-    color: ${(props) => transparentize(0.5, props.theme.colors.text)};
-  }
-
-  &:focus {
-    outline: none;
-    border-color: ${(props) => props.theme.colors.primary};
-
-    &::placeholder {
-      color: ${(props) => transparentize(0.28, props.theme.colors.text)};
-    }
-  }
-
-  /* Disable autocompletion style */
+export const Inner = styled.input`
+  /* Disable autocompletion styles */
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus {
-    -webkit-text-fill-color: inherit;
+    -webkit-text-fill-color: currentColor;
     transition: background-color 5000s ease-in-out 0s;
   }
-
-  ${space}
-  ${layout}
 `

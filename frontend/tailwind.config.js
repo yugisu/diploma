@@ -5,7 +5,14 @@ module.exports = {
   purge: ['./src/**/*.{ts,tsx}', './public/index.html'],
   darkMode: 'class',
   theme: {
-    extend: {},
+    fontFamily: {
+      sans: ['Roboto', 'sans-serif'],
+    },
+    extend: {
+      colors: {
+        primary: '#ffa841',
+      },
+    },
   },
   variants: {
     extend: {},

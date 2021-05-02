@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { lighten, transparentize } from 'polished'
 import React from 'react'
 import styled, { css } from 'styled-components'
@@ -11,8 +12,8 @@ type Props = {
   LayoutProps &
   React.ButtonHTMLAttributes<HTMLButtonElement>
 
-export const Button = (props: Props) => {
-  return <Inner {...props} />
+export const Button = ({ className, ...props }: Props) => {
+  return <Inner {...props} className={clsx('', className)} />
 }
 
 const Inner = styled.button<{
