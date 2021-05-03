@@ -1,7 +1,7 @@
 import Router from '@koa/router'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { UserRegistrationModel, UserLoginModel } from '@diploma/shared'
+import { SimpleUserRegistrationModel, UserLoginModel } from '@diploma/shared'
 
 import type { JwtTokenData } from 'types/auth'
 
@@ -10,7 +10,7 @@ const SALT_ROUNDS = 3
 const authRouter = new Router<{}, Context>({ prefix: '/auth' })
 
 authRouter.post('/register', async (ctx) => {
-  const userParseResult = UserRegistrationModel.omit({ passwordConfirmation: true }).safeParse(ctx.request.body)
+  const userParseResult = SimpleUserRegistrationModel.safeParse(ctx.request.body)
 
   if (userParseResult.success) {
     const {
