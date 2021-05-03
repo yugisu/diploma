@@ -1,5 +1,5 @@
 import ky from 'ky'
-import type { UserLoginModelT } from '@diploma/shared'
+import type { UserLoginModelT, UserRegistrationModelT } from '@diploma/shared'
 
 import { ApiRoutes } from 'constants/apiRoutes'
 import { authVar } from 'vars/authVar'
@@ -17,6 +17,8 @@ const checkToken = async () => {
         localStorage.removeItem('identity')
         authVar(false)
       }
+
+      throw error
     }
   }
 }
@@ -31,18 +33,27 @@ const login = async (loginData: UserLoginModelT) => {
   } catch (error) {
     localStorage.removeItem('identity')
     authVar(false)
+
+    throw error
   }
 }
 
-const logout = async () => {
-  await api.get(ApiRoutes.LOGOUT)
+const createAccount = async (data: UserRegistrationModelT) => {
+  await api.post(ApiRoutes.REGISTRATION, { json: data })
+}
 
-  localStorage.removeItem('identity')
-  authVar(false)
+const logout = async () => {
+  try {
+    await api.get(ApiRoutes.LOGOUT)
+  } finally {
+    localStorage.removeItem('identity')
+    authVar(false)
+  }
 }
 
 export const authService = {
   checkToken,
   login,
+  createAccount,
   logout,
 }

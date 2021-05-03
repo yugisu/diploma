@@ -1,11 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link, Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { PageBody, PageContainer } from 'components/Layout/Layout'
 import { Topbar } from 'components/Topbar/Topbar'
 
 import { LoginCard } from './LoginCard'
+import { RegistrationCard } from './RegistrationCard'
+import { RegistrationSuccessCard } from './RegistrationSuccessCard'
 
 export const AuthPage = () => {
   return (
@@ -15,20 +17,13 @@ export const AuthPage = () => {
       <PageBody>
         <BodyContainerInner>
           <Routes>
-            <Route path="login/" element={<LoginCard />} />
+            <Route path="login" element={<LoginCard />} />
 
-            <Route
-              path="registration"
-              element={
-                <div>
-                  <span>Registration</span>
+            <Route path="registration" element={<RegistrationCard />} />
 
-                  <Link to="../login">Login with an existing account</Link>
-                </div>
-              }
-            />
+            <Route path="registration-success" element={<RegistrationSuccessCard />} />
 
-            <Route element={<Navigate to="login" replace />} />
+            <Route path="*" element={<Navigate to="login" replace />} />
           </Routes>
         </BodyContainerInner>
       </PageBody>

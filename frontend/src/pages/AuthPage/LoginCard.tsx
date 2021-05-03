@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
+import type { UserLoginModelT } from '@diploma/shared'
 
 import { authService } from 'services/authService'
 
@@ -9,7 +10,7 @@ import { Input } from 'components/Common/Input'
 import { Button } from 'components/Common/Button'
 
 export const LoginCard = () => {
-  const f = useFormik({
+  const f = useFormik<UserLoginModelT>({
     initialValues: { email: '', password: '' },
     onSubmit: async (valuesToSubmit, { setSubmitting }) => {
       await authService.login(valuesToSubmit)
