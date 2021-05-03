@@ -1,44 +1,24 @@
+import clsx from 'clsx'
 import React from 'react'
 import styled from 'styled-components'
-import { space, SpaceProps, layout, LayoutProps } from 'styled-system'
 
 type Props = {
   description: React.ReactNode
   control: React.ReactNode
 
   fluid?: boolean
-} & SpaceProps &
-  LayoutProps &
-  Omit<React.LabelHTMLAttributes<HTMLLabelElement>, 'children'>
+} & Omit<React.LabelHTMLAttributes<HTMLLabelElement>, 'children'>
 
-export const InputLabel = ({ description, control, ...props }: Props) => (
-  <Inner {...props}>
-    <Description>{description}</Description>
+export const InputLabel = ({ description, control, fluid, className, ...props }: Props) => (
+  <Inner className={clsx('mb-4 flex flex-col', fluid ? 'w-full' : 'w-32', className)} {...props}>
+    <span className="mb-1 font-bold text-lesser">{description}</span>
 
     {control}
   </Inner>
 )
 
 const Inner = styled.label<{ fluid?: boolean }>`
-  flex-grow: 0;
-  width: ${(props) => (props.fluid ? '100%' : '15rem')};
-
-  margin-bottom: 1rem;
-
-  display: flex;
-  flex-direction: column;
-
-  ${space}
-  ${layout}
-
   & > input {
     width: 100%;
   }
-`
-
-const Description = styled.div`
-  margin-bottom: 0.25rem;
-
-  font-weight: bold;
-  font-size: 0.85rem;
 `

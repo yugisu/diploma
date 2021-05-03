@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 
@@ -7,9 +6,10 @@ import { authService } from 'services/authService'
 
 import { InputLabel } from 'components/Common/InputLabel'
 import { Input } from 'components/Common/Input'
+import { Button } from 'components/Common/Button'
 
 export const LoginCard = () => {
-  const { values, handleSubmit, handleChange } = useFormik({
+  const f = useFormik({
     initialValues: { email: '', password: '' },
     onSubmit: async (valuesToSubmit, { setSubmitting }) => {
       await authService.login(valuesToSubmit)
@@ -19,35 +19,53 @@ export const LoginCard = () => {
   })
 
   return (
-    <form className="px-10 py-20 shadow-lg rounded border border-gray-400 border-opacity-20" onSubmit={handleSubmit}>
-      <h1 className="text-4xl">Login</h1>
+    <form className="max-w-md w-full" onSubmit={f.handleSubmit}>
+      <div className="flex flex-col items-center mb-8">
+        <h1 className="text-7xl mb-3 opacity-80">Sign in</h1>
 
-      <InputLabel
-        description="Email"
-        control={<Input name="email" value={values.email} onChange={handleChange} type="text" placeholder="Email" />}
-        fluid
-      />
+        <span>
+          <span className="opacity-90">...or </span>
+          <Link to="../registration" className="text-primary font-medium opacity-90 hover:opacity-100">
+            create a new account
+          </Link>
+        </span>
+      </div>
 
-      <InputLabel
-        description="Password"
-        control={
-          <Input
-            name="password"
-            value={values.password}
-            onChange={handleChange}
-            type="password"
-            placeholder="Password"
-          />
-        }
-        marginBottom="1rem"
-        fluid
-      />
+      <div className="mb-8">
+        <InputLabel
+          description="Email"
+          control={
+            <Input
+              name="email"
+              value={f.values.email}
+              onChange={f.handleChange}
+              type="text"
+              placeholder="Email"
+              autoComplete="email"
+            />
+          }
+          fluid
+        />
 
-      <button type="submit">Submit</button>
+        <InputLabel
+          description="Password"
+          control={
+            <Input
+              name="password"
+              value={f.values.password}
+              onChange={f.handleChange}
+              type="password"
+              placeholder="Password"
+              autoComplete="current-password"
+            />
+          }
+          fluid
+        />
+      </div>
 
-      <Link to="../registration" style={{ alignSelf: 'center' }}>
-        Create account
-      </Link>
+      <Button primary type="submit" className="w-full">
+        Sign in
+      </Button>
     </form>
   )
 }

@@ -19,7 +19,8 @@
       "vars/*": ["./vars/*"],
       "services/*": ["./services/*"],
       "constants/*": ["./constants/*"]
-    }
+    },
+    "noEmit": true
   },
 
   "include": ["src"]

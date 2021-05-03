@@ -15,6 +15,8 @@ module.exports = {
   },
   routes: [{ match: 'routes', src: '.*', dest: '/index.html' }],
 
+  exclude: ['**/*.stories.tsx', '**/*.test.tsx', '**/*.spec.tsx'],
+
   plugins: [
     '@snowpack/plugin-postcss',
     '@snowpack/plugin-typescript',

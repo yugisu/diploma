@@ -4,9 +4,10 @@ import clsx from 'clsx'
 
 type Props = {
   fluid?: boolean
+  type: 'text' | 'password' | 'email' | 'number'
 } & React.InputHTMLAttributes<HTMLInputElement>
 
-export const Input = ({ className, fluid, ...props }: Props) => (
+export const Input = ({ className, fluid, type, ...props }: Props) => (
   <Inner
     className={clsx(
       'py-2 px-3 max-w-full',
@@ -15,8 +16,10 @@ export const Input = ({ className, fluid, ...props }: Props) => (
       'focus:outline-none border border-solid border-gray-400 border-opacity-20 focus:border-primary focus:border-opacity-100 focus:ring ring-primary ring-opacity-10',
       'placeholder-gray-400 placeholder-opacity-50 focus:placeholder-opacity-90',
       fluid ? 'w-full' : 'w-60',
+
       className,
     )}
+    type={type}
     {...props}
   />
 )
