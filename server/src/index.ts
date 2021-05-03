@@ -2,6 +2,8 @@ import 'reflect-metadata'
 
 import dotenv from 'dotenv'
 
+import { logger } from 'utils/logger'
+
 import { initServer } from './server'
 
 const main = async () => {
@@ -21,12 +23,13 @@ const main = async () => {
   await initServer()
 }
 
-main().catch((error) => console.error(error))
+main().catch((error) => logger.error(error))
 
 process.on('uncaughtException', async (err) => {
-  console.error(`Uncaught exception: ${err.stack?.split('\n')}`)
+  logger.error(`Uncaught exception: ${err.stack?.split('\n')}`)
 })
 
 process.on('unhandledRejection', async (err: Error) => {
-  console.error(`Unhandled rejection: ${err?.stack?.split('\n')}`)
+  logger.error(`Unhandled rejection: ${err?.stack?.split('\n')}`)
+  process.exit(1)
 })

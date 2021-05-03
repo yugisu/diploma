@@ -10,6 +10,7 @@ import { whitelistedUrlPatterns } from '@diploma/shared'
 import type { JwtTokenData } from 'types/auth'
 import { getGqlSchema } from 'provided/graphql'
 import authRouter from 'provided/routes/auth'
+import { logger } from 'utils/logger'
 
 export const initServer = async () => {
   const app = new Koa()
@@ -25,6 +26,46 @@ export const initServer = async () => {
   // Apply middlewares
 
   app.use(cors())
+
+  // Add request logger when in development
+  if (process.env.NODE_ENV === 'development') {
+    app.use(async (ctx, next) => {
+      await next()
+
+      const maxBodyLength = 300
+
+      let message = `[${ctx.method} ${ctx.url}] ${ctx.status}`
+
+      if (ctx.url !== '/graphql') {
+        const serializedRequestBody = JSON.stringify(ctx.request.body, null, 2)
+
+        const serializedResponseBody = typeof ctx.body === 'object' ? JSON.stringify(ctx.body, null, 2) : ctx.body
+
+        if (serializedRequestBody) {
+          message += `\nRequest body: ${serializedRequestBody.slice(0, maxBodyLength)}`
+        }
+
+        if (serializedResponseBody) {
+          message += `\nResponse body: ${serializedResponseBody.slice(0, maxBodyLength * 2)}`
+        }
+      }
+
+      logger.info(message)
+    })
+  }
+
+  app.use(async (ctx, next) => {
+    try {
+      await next()
+    } catch (error) {
+      logger.error(error)
+
+      ctx.status = error.statusCode || error.status || 500
+      ctx.body = {
+        message: error.message,
+      }
+    }
+  })
 
   app.use(
     jwt({
@@ -110,7 +151,7 @@ export const initServer = async () => {
   // Run server
 
   const server = app.listen({ port: process.env.PORT }, () => {
-    console.log('Server listening on localhost:3000...')
+    logger.info(`Server running on port "${process.env.PORT}"...`)
   })
 
   return server
