@@ -5,6 +5,8 @@ services:
     container_name: diploma-database
     image: postgres:13
     network_mode: host
+    logging:
+      driver: "none"
     environment:
       POSTGRES_DB: diploma-dev
       POSTGRES_USER: dev
