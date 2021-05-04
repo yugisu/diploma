@@ -3,9 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "prestart": "yarn workspace @diploma/shared build",
     "start": "nodemon --config nodemon.json",
-    "start:once": "tsc && cross-env NODE_ENV=development NODE_PATH=build/ node --inspect=127.0.0.1:3001 ./build/",
+    "start:once": "tsc && cross-env NODE_ENV=development NODE_PATH=build/ node --inspect=3001 ./build/",
     "build": "rimraf build/ && tsc",
     "test": "node -r tsconfig-paths/register node_modules/.bin/jest"
   },

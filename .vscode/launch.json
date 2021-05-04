@@ -5,13 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach server",
+      "name": "Attach to `server`",
       "type": "node",
       "request": "attach",
       "port": 3001,
-      "address": "localhost",
       "restart": true,
-      "sourceMaps": true
+      "sourceMaps": true,
+      "remoteRoot": "/var/application/server",
+      "localRoot": "${workspaceFolder}/server"
     }
   ]
 }
