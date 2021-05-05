@@ -13,15 +13,34 @@ import authRouter from 'provided/routes/auth'
 import { logger } from 'utils/logger'
 
 export const initServer = async () => {
-  const app = new Koa()
-
   // Set up Prisma
 
   const prismaClient = new PrismaClient()
 
   await prismaClient.$connect()
 
+  const app = new Koa()
+
   app.context.prisma = prismaClient
+
+  // Error handling
+
+  app.on('error', (err) => {
+    logger.error(err)
+  })
+
+  app.use(async (ctx, next) => {
+    try {
+      await next()
+    } catch (err) {
+      ctx.status = err.statusCode || err.status || 500
+      ctx.body = {
+        message: err.message,
+      }
+
+      ctx.app.emit('error', err, ctx)
+    }
+  })
 
   // Apply middlewares
 
@@ -36,6 +55,7 @@ export const initServer = async () => {
 
       let message = `[${ctx.method} ${ctx.url}] ${ctx.status}`
 
+      // Ignore graphql requests as they are too verbose
       if (ctx.url !== '/graphql') {
         const serializedRequestBody = JSON.stringify(ctx.request.body, null, 2)
 
@@ -53,23 +73,6 @@ export const initServer = async () => {
       logger.info(message)
     })
   }
-
-  app.use(async (ctx, next) => {
-    try {
-      await next()
-    } catch (err) {
-      ctx.status = err.statusCode || err.status || 500
-      ctx.body = {
-        message: err.message,
-      }
-
-      ctx.app.emit('error', err, ctx)
-    }
-  })
-
-  app.on('error', (err, ctx) => {
-    logger.error(err)
-  })
 
   app.use(
     jwt({
