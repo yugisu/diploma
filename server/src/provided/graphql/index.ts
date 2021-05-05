@@ -1,9 +1,12 @@
 import { buildSchema } from 'type-graphql'
 
-import { UserCrudResolver } from 'generated/typegraphql-prisma/resolvers/crud'
+import { resolvers as generatedResolvers } from 'generated/typegraphql-prisma'
 
 export const getGqlSchema = async () => {
-  const graphqlSchema = await buildSchema({ resolvers: [UserCrudResolver], validate: false })
+  const graphqlSchema = await buildSchema({
+    resolvers: generatedResolvers,
+    validate: false,
+  })
 
   return graphqlSchema
 }

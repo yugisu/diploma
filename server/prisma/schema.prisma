@@ -12,20 +12,57 @@ generator typegraphql {
   output   = "../src/generated/typegraphql-prisma"
 }
 
+model Workspace {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name      String
+
+  userProfiles Profile[]
+}
+
 model User {
-  id           Int           @id @default(autoincrement())
-  createdAt    DateTime      @default(now())
-  name         String
-  email        String        @unique
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name      String
+  email     String   @unique
   /// @TypeGraphQL.omit(output: true, input: true)
-  password     String
+  password  String
+
+  profiles Profile[]
+
   userSessions UserSession[]
 }
 
 model UserSession {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
-  userId    Int
-  user      User      @relation(fields: [userId], references: [id])
   endedAt   DateTime?
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  profileId Int?
+  profile   Profile? @relation(fields: [profileId], references: [id])
+}
+
+model Profile {
+  id        Int               @id @default(autoincrement())
+  createdAt DateTime          @default(now())
+  userRole  UserWorkspaceRole @default(USER)
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  workspaceId Int
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+
+  userSessions UserSession[]
+
+  @@unique([userId, workspaceId])
+}
+
+enum UserWorkspaceRole {
+  CREATOR
+  ADMIN
+  USER
 }
