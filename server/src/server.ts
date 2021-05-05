@@ -57,14 +57,18 @@ export const initServer = async () => {
   app.use(async (ctx, next) => {
     try {
       await next()
-    } catch (error) {
-      logger.error(error)
-
-      ctx.status = error.statusCode || error.status || 500
+    } catch (err) {
+      ctx.status = err.statusCode || err.status || 500
       ctx.body = {
-        message: error.message,
+        message: err.message,
       }
+
+      ctx.app.emit('error', err, ctx)
     }
+  })
+
+  app.on('error', (err, ctx) => {
+    logger.error(err)
   })
 
   app.use(
