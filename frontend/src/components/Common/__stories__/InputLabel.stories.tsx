@@ -15,13 +15,13 @@ export const WithInput = Template.bind({})
 
 WithInput.args = {
   description: 'Email',
-  control: <Input placeholder="Email" />,
+  control: <Input type="text" placeholder="Email" />,
 }
 
 export const GroupOfLabelsWithInputs: Story<ExtractProps<typeof InputLabel>> = (args) => (
   <>
-    <InputLabel {...args} description="Name" control={<Input value="John Doe" />} />
-    <InputLabel {...args} description="Email" control={<Input value="test@email.com" />} />
+    <InputLabel {...args} description="Name" control={<Input type="text" value="John Doe" />} />
+    <InputLabel {...args} description="Email" control={<Input type="text" value="test@email.com" />} />
     <InputLabel {...args} description="Password" control={<Input type="password" value="12345678" />} />
   </>
 )
