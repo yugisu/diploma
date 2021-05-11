@@ -21,14 +21,11 @@ export const PageHeader = styled.header`
   left: 0;
   right: 0;
 
-  height: 2rem;
+  height: 3rem;
 
   padding: 0 4rem;
   display: flex;
   align-items: center;
-
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  background-color: rgba(255, 255, 255, 0.05);
 `
 
 export const PageBody = styled.div`

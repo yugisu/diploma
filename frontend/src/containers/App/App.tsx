@@ -11,6 +11,8 @@ import { preferredThemeVar } from 'vars/preferredThemeVar'
 import { AuthPage } from 'pages/AuthPage/AuthPage'
 import { MainPage } from 'pages/MainPage/MainPage'
 
+import { GraphQLProvider } from 'containers/GraphQLProvider/GraphQLProvider'
+
 export const App = () => {
   useEffect(() => void authService.checkToken(), [])
   const isAuthenticated = useReactiveVar(authVar)
@@ -24,7 +26,18 @@ export const App = () => {
           <Routes>
             <Route path="auth/*" element={isAuthenticated ? <Navigate to="/" replace /> : <AuthPage />} />
 
-            <Route path="/*" element={!isAuthenticated ? <Navigate to="/auth" replace /> : <MainPage />} />
+            <Route
+              path="/*"
+              element={
+                !isAuthenticated ? (
+                  <Navigate to="/auth" replace />
+                ) : (
+                  <GraphQLProvider>
+                    <MainPage />
+                  </GraphQLProvider>
+                )
+              }
+            />
           </Routes>
         )}
       </BrowserRouter>

@@ -1,12 +1,12 @@
 import ky from 'ky'
 import { whitelistedUrlPatterns } from '@diploma/shared'
 
-const SERVER_URL = import.meta.env.SNOWPACK_PUBLIC_SERVER_URL
+export const SERVER_URL = import.meta.env.SNOWPACK_PUBLIC_SERVER_URL
 
-const apiUrl = `${SERVER_URL}/api`
+export const API_URL = `${SERVER_URL}/api`
 
 const api = ky.extend({
-  prefixUrl: apiUrl,
+  prefixUrl: API_URL,
   hooks: {
     beforeRequest: [
       (request) => {
