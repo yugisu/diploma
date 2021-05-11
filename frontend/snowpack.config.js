@@ -22,6 +22,14 @@ module.exports = {
     '@snowpack/plugin-typescript',
     '@snowpack/plugin-react-refresh',
     '@snowpack/plugin-dotenv',
+    [
+      '@snowpack/plugin-run-script',
+      {
+        cmd: 'graphql-codegen',
+        watch: 'graphql-codegen --watch',
+        name: 'GraphQL types',
+      },
+    ],
   ],
   alias: {
     ...importAliasesFromTsconfig,
@@ -29,6 +37,9 @@ module.exports = {
     '@diploma/shared': '../shared/src',
   },
   packageOptions: {
-    knownEntrypoints: ['zod', 'ts-invariant'],
+    knownEntrypoints: ['zod', 'ts-invariant', 'symbol-observable'],
+  },
+  devOptions: {
+    open: 'none',
   },
 }

@@ -18,9 +18,16 @@
       "styles/*": ["./styles/*"],
       "vars/*": ["./vars/*"],
       "services/*": ["./services/*"],
-      "constants/*": ["./constants/*"]
+      "constants/*": ["./constants/*"],
+      "generated/*": ["./generated/*"]
     },
-    "noEmit": true
+    "noEmit": true,
+
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ]
   },
 
   "include": ["src"]

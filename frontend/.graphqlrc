@@ -5,15 +5,5 @@
         "Authorization": "graphql-development"
       }
     }
-  },
-  "extensions": {
-    "endpoints": {
-      "default": {
-        "url": "http://localhost:3000/graphql",
-        "headers": {
-          "Authorization": "Bearer jwtToken"
-        }
-      }
-    }
   }
 }

@@ -19,6 +19,7 @@
   },
 
   "graphql-config.load.rootDir": "./frontend",
+  "vscode-graphql.showExecCodelens": false,
 
   "typescript.tsdk": "node_modules/typescript/lib"
 }

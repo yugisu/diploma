@@ -1,0 +1,22 @@
+schema:
+  - http://localhost:3000/graphql:
+      headers:
+        Authorization: graphql-development
+
+generates:
+  src/generated/graphql-query-types.ts:
+    documents: "./src/**/*.(tsx|ts)"
+    plugins:
+      - typescript:
+          noExport: true
+          onlyOperationTypes: true
+      - typescript-operations:
+          flattenGeneratedTypes: true
+          preResolveTypes: true
+          skipTypeNameForRoot: true
+          immutableTypes: true
+      - typed-document-node
+    config:
+      skipTypename: true
+      useTypeImports: true
+      defaultScalarType: unknown
