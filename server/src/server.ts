@@ -49,28 +49,38 @@ export const initServer = async () => {
   // Add request logger when in development
   if (process.env.NODE_ENV === 'development') {
     app.use(async (ctx, next) => {
-      await next()
+      let status
 
-      const maxBodyLength = 300
+      try {
+        await next()
 
-      let message = `[${ctx.method} ${ctx.url}] ${ctx.status}`
+        status = ctx.status
+      } catch (error) {
+        status = error.statusCode || error.status
 
-      // Ignore graphql requests as they are too verbose
-      if (ctx.url !== '/graphql') {
-        const serializedRequestBody = JSON.stringify(ctx.request.body, null, 2)
+        throw error
+      } finally {
+        const maxBodyLength = 300
 
-        const serializedResponseBody = typeof ctx.body === 'object' ? JSON.stringify(ctx.body, null, 2) : ctx.body
+        let message = `[${ctx.method} ${ctx.url}] ${status}`
 
-        if (serializedRequestBody) {
-          message += `\nRequest body: ${serializedRequestBody.slice(0, maxBodyLength)}`
+        // Ignore graphql requests as they are too verbose
+        if (ctx.url !== '/graphql') {
+          const serializedRequestBody = JSON.stringify(ctx.request.body, null, 2)
+
+          const serializedResponseBody = typeof ctx.body === 'object' ? JSON.stringify(ctx.body, null, 2) : ctx.body
+
+          if (serializedRequestBody) {
+            message += `\nRequest body: ${serializedRequestBody.slice(0, maxBodyLength)}`
+          }
+
+          if (serializedResponseBody) {
+            message += `\nResponse body: ${serializedResponseBody.slice(0, maxBodyLength * 2)}`
+          }
         }
 
-        if (serializedResponseBody) {
-          message += `\nResponse body: ${serializedResponseBody.slice(0, maxBodyLength * 2)}`
-        }
+        logger.info(message)
       }
-
-      logger.info(message)
     })
   }
 
@@ -81,8 +91,12 @@ export const initServer = async () => {
       cookie: 'auth',
     }).unless({
       custom: (ctx) => {
-        // Disable authentication for GraphQL Playground
-        if (process.env.NODE_ENV === 'development' && ctx.url === '/graphql' && ctx.method === 'GET') {
+        // Disable authentication for GraphQL tools in development
+        if (
+          process.env.NODE_ENV === 'development' &&
+          ctx.url === '/graphql' &&
+          (ctx.method === 'GET' || ctx.headers.authorization === 'graphql-development')
+        ) {
           return true
         }
 
@@ -106,14 +120,18 @@ export const initServer = async () => {
 
       const activeUserSession = await ctx.prisma.userSession.findFirst({
         where: { id: sessionId, endedAt: null },
-        select: { user: true },
+        select: {
+          userId: true,
+          profileId: true,
+        },
       })
 
       if (activeUserSession) {
-        const { user } = activeUserSession
+        const { userId, profileId } = activeUserSession
 
         ctx.state.sessionId = sessionId
-        ctx.state.user = user
+        ctx.state.userId = userId
+        ctx.state.profileId = profileId
       } else {
         ctx.throw(401)
       }

@@ -1,10 +1,25 @@
 import { buildSchema } from 'type-graphql'
 
-import { resolvers as generatedResolvers } from 'generated/typegraphql-prisma'
+import {
+  relationResolvers,
+  ProfileCrudResolver,
+  UserCrudResolver,
+  WorkspaceCrudResolver,
+} from 'generated/typegraphql-prisma'
+
+import { IdentityResolver } from './resolvers/IdentityResolver'
 
 export const getGqlSchema = async () => {
   const graphqlSchema = await buildSchema({
-    resolvers: generatedResolvers,
+    resolvers: [
+      // Generated resolvers
+      ...relationResolvers,
+      ProfileCrudResolver,
+      UserCrudResolver,
+      WorkspaceCrudResolver,
+      // Custom resolvers
+      IdentityResolver,
+    ],
     validate: false,
   })
 

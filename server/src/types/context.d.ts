@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 import type Koa from 'koa'
-import type { PrismaClient, User, UserSession } from '@prisma/client'
+import type { PrismaClient, UserSession } from '@prisma/client'
 
 type ApplicationStateExtension = {
-  user?: User
-  userSession?: UserSession
+  sessionId?: UserSession['id']
+  userId?: UserSession['userId']
+  profileId?: UserSession['profileId']
 }
 
 type ApplicationContextExtension = {
