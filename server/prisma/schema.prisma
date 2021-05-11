@@ -49,6 +49,7 @@ model Profile {
   id        Int               @id @default(autoincrement())
   createdAt DateTime          @default(now())
   userRole  UserWorkspaceRole @default(USER)
+  status    ProfileStatus     @default(CREATED)
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
@@ -65,4 +66,10 @@ enum UserWorkspaceRole {
   CREATOR
   ADMIN
   USER
+}
+
+enum ProfileStatus {
+  CREATED
+  ACTIVE
+  SUSPENDED
 }
