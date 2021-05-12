@@ -5,8 +5,6 @@ services:
     container_name: diploma-database
     image: postgres:13
     network_mode: host
-    logging:
-      driver: "none"
     environment:
       POSTGRES_DB: diploma-dev
       POSTGRES_USER: dev
@@ -14,47 +12,3 @@ services:
       PGDATA: /var/pgdata
     volumes:
       - ./data:/var/pgdata
-
-  shared:
-    container_name: diploma-shared
-    image: node:12.14.1
-    command: yarn watch
-    working_dir: /var/application/shared
-    environment:
-      NODE_ENV: development
-    volumes:
-      - ./:/var/application
-
-  server:
-    container_name: diploma-server
-    image: node:12.14.1
-    command: yarn start
-    tty: true
-    stdin_open: true
-    network_mode: host
-    working_dir: /var/application/server
-    environment:
-      DATABASE_URL: postgresql://dev:dev@0.0.0.0:5432/diploma-dev
-      PORT: 3000
-      JWT_SECRET: development
-      NODE_ENV: development
-    volumes:
-      - ./:/var/application
-    depends_on:
-      - database
-      - shared
-
-  frontend:
-    container_name: diploma-frontend
-    image: node:12.14.1
-    command: yarn start
-    network_mode: host
-    working_dir: /var/application/frontend
-    environment:
-      SNOWPACK_PUBLIC_SERVER_URL: http://localhost:3000
-      NODE_ENV: development
-    volumes:
-      - ./:/var/application
-    depends_on:
-      - shared
-      - server

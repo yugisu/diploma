@@ -10,7 +10,8 @@
 
     "noEmit": false,
     "declaration": true,
-    "outDir": "build"
+    "outDir": "build",
+    "incremental": true
   },
 
   "include": ["src"]

@@ -11,6 +11,7 @@
     "noEmit": false,
     "outDir": "./build",
     "sourceMap": true,
+    "incremental": true,
 
     "baseUrl": "./src",
 
