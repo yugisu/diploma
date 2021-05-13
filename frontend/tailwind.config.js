@@ -15,6 +15,15 @@ module.exports = {
       fontSize: {
         lesser: ['0.85rem', '1.2rem'],
       },
+      keyframes: {
+        appear: {
+          from: { opacity: 0.2 },
+          to: { opacity: 1 },
+        },
+      },
+      animation: {
+        appear: 'appear 0.5s',
+      },
     },
   },
   variants: {

@@ -1,39 +1,40 @@
 import React from 'react'
-import { gql, useQuery } from '@apollo/client'
+import { gql, useQuery, useReactiveVar } from '@apollo/client'
+import { Navigate, useLocation } from 'react-router-dom'
 
 import { GetCurrentUserSessionDocument } from 'generated/graphql-query-types'
+import { authVar } from 'vars/authVar'
 
-import { PageBody, PageContainer } from 'components/Layout/Layout'
-import { Topbar } from 'components/Topbar/Topbar'
+import { GenericPage } from 'containers/GenericPage/GenericPage'
 
 const CURRENT_USER_QUERY = gql`
   query getCurrentUserSession {
     currentUserSession {
       id
-      user {
-        id
-        name
-      }
       profile {
         id
-        status
       }
     }
   }
 ` as typeof GetCurrentUserSessionDocument
 
 export const MainPage = () => {
-  const currentSessionQuery = useQuery(CURRENT_USER_QUERY)
+  const location = useLocation()
 
-  return (
-    <PageContainer>
-      <Topbar key="app-topbar" />
+  const isAuthenticated = useReactiveVar(authVar)
 
-      <PageBody>
-        <h1>Welcome</h1>
+  const currentSessionQuery = useQuery(CURRENT_USER_QUERY, {
+    skip: !isAuthenticated,
+  })
+  const currentSession = currentSessionQuery.data?.currentUserSession
 
-        <div>{JSON.stringify(currentSessionQuery.data, null, 2)}</div>
-      </PageBody>
-    </PageContainer>
-  )
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" state={{ next: location.pathname }} replace />
+  }
+
+  if (location.pathname !== '/workspace-selection' && currentSession && !currentSession.profile) {
+    return <Navigate to="/workspace-selection" />
+  }
+
+  return <GenericPage />
 }

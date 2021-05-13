@@ -9,7 +9,7 @@ import { InputLabel } from 'components/Common/InputLabel'
 import { Input } from 'components/Common/Input'
 import { Button } from 'components/Common/Button'
 
-export const LoginCard = () => {
+export const LoginView = () => {
   const f = useFormik<UserLoginModelT>({
     initialValues: { email: '', password: '' },
     onSubmit: async (valuesToSubmit, { setSubmitting }) => {

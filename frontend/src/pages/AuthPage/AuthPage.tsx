@@ -1,43 +1,19 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
+import { useReactiveVar } from '@apollo/client'
 
-import { PageBody, PageContainer } from 'components/Layout/Layout'
-import { Topbar } from 'components/Topbar/Topbar'
+import { authVar } from 'vars/authVar'
 
-import { LoginCard } from './LoginCard'
-import { RegistrationCard } from './RegistrationCard'
-import { RegistrationSuccessCard } from './RegistrationSuccessCard'
+import { GenericPage } from 'containers/GenericPage/GenericPage'
 
 export const AuthPage = () => {
-  return (
-    <PageContainer>
-      <Topbar key="app-topbar" />
+  const location = useLocation()
 
-      <PageBody>
-        <BodyContainerInner>
-          <Routes>
-            <Route path="login" element={<LoginCard />} />
+  const isAuthenticated = useReactiveVar(authVar)
 
-            <Route path="registration" element={<RegistrationCard />} />
+  if (isAuthenticated) {
+    return <Navigate to={(location.state as { next?: string } | null)?.next || '/'} state={null} replace />
+  }
 
-            <Route path="registration-success" element={<RegistrationSuccessCard />} />
-
-            <Route path="*" element={<Navigate to="login" replace />} />
-          </Routes>
-        </BodyContainerInner>
-      </PageBody>
-    </PageContainer>
-  )
+  return <GenericPage />
 }
-
-const BodyContainerInner = styled.div`
-  flex: 1;
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`

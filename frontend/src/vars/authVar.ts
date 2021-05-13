@@ -1,3 +1,3 @@
 import { makeVar } from '@apollo/client'
 
-export const authVar = makeVar<boolean | undefined>(localStorage.getItem('identity') ? undefined : false)
+export const authVar = makeVar<boolean | undefined>(Boolean(localStorage.getItem('identity')))

@@ -9,7 +9,7 @@ import { InputLabel } from 'components/Common/InputLabel'
 import { Input } from 'components/Common/Input'
 import { Button } from 'components/Common/Button'
 
-export const RegistrationCard = () => {
+export const RegistrationView = () => {
   const navigate = useNavigate()
 
   const f = useFormik<UserRegistrationModelT>({
