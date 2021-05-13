@@ -1,16 +1,33 @@
 import React, { useEffect } from 'react'
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
+import { ApolloClient, ApolloProvider, InMemoryCache, from, ServerError, ServerParseError } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+import { BatchHttpLink } from '@apollo/client/link/batch-http'
+import { onError } from '@apollo/client/link/error'
 
 import { SERVER_URL } from 'services/api'
 import { __DEV__ } from 'constants/environment'
+import { authService } from 'services/authService'
 
 const cache = new InMemoryCache()
 
 export const GRAPHQL_URL = `${SERVER_URL}/graphql`
 
-const httpLink = createHttpLink({
-  uri: GRAPHQL_URL,
+const errorHandlerLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.map(({ message, locations, path }) =>
+      console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`),
+    )
+  if (networkError) {
+    console.error(`[Network error]: ${networkError}`)
+
+    if ((networkError as ServerError | ServerParseError).response) {
+      const error = networkError as ServerError | ServerParseError
+
+      if (error.response.status === 401) {
+        authService.logout().catch(() => {})
+      }
+    }
+  }
 })
 
 const authLink = setContext((_, { headers }) => {
@@ -24,8 +41,12 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
+const httpLink = new BatchHttpLink({
+  uri: GRAPHQL_URL,
+})
+
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: from([errorHandlerLink, authLink, httpLink]),
   cache,
   connectToDevTools: __DEV__,
 })
