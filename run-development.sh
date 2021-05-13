@@ -1,7 +1,8 @@
 START_DELAY_SERVER=4
 START_DELAY_FRONTEND=11
 
-trap "docker-compose down" INT
+trap "exit" INT TERM
+trap "docker-compose down && kill 0" EXIT
 
 docker-compose up -d database
 
