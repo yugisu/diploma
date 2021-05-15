@@ -12,8 +12,20 @@ generator typegraphql {
   output   = "../src/generated/typegraphql-prisma"
 }
 
+enum UserWorkspaceRole {
+  CREATOR
+  ADMIN
+  USER
+}
+
+enum ProfileStatus {
+  CREATED
+  ACTIVE
+  SUSPENDED
+}
+
 model Workspace {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   name      String
 
@@ -21,7 +33,7 @@ model Workspace {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   name      String
   email     String   @unique
@@ -34,42 +46,30 @@ model User {
 }
 
 model UserSession {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(cuid())
   createdAt DateTime  @default(now())
   endedAt   DateTime?
 
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
-  profileId Int?
+  profileId String?
   profile   Profile? @relation(fields: [profileId], references: [id])
 }
 
 model Profile {
-  id        Int               @id @default(autoincrement())
+  id        String            @id @default(cuid())
   createdAt DateTime          @default(now())
   userRole  UserWorkspaceRole @default(USER)
   status    ProfileStatus     @default(CREATED)
 
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
-  workspaceId Int
+  workspaceId String
   workspace   Workspace @relation(fields: [workspaceId], references: [id])
 
   userSessions UserSession[]
 
   @@unique([userId, workspaceId])
-}
-
-enum UserWorkspaceRole {
-  CREATOR
-  ADMIN
-  USER
-}
-
-enum ProfileStatus {
-  CREATED
-  ACTIVE
-  SUSPENDED
 }
