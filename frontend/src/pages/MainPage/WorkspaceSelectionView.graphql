@@ -1,0 +1,25 @@
+query GetUserSessionForProfilesSelection {
+  currentUserSession {
+    id
+    user {
+      id
+      name
+
+      profiles {
+        id
+        workspace {
+          id
+          name
+        }
+      }
+    }
+    profileId
+  }
+}
+
+mutation SelectProfile($profileId: Int!) {
+  selectWorkspaceProfile(profileId: $profileId) {
+    id
+    profileId
+  }
+}

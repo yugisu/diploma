@@ -4,19 +4,31 @@ schema:
         Authorization: graphql-development
 
 generates:
-  src/generated/graphql-query-types.ts:
-    documents: "./src/**/*.(tsx|ts)"
+  src/generated/graphql-types.ts:
+    documents: "./src/**/*.graphql"
     plugins:
       - typescript:
-          noExport: true
+          enumsAsTypes: true
           onlyOperationTypes: true
+          skipTypename: true
+          useTypeImports: true
+          defaultScalarType: unknown
+          addUnderscoreToArgsType: true
+
+  src/:
+    documents: "./src/**/*.graphql"
+    preset: near-operation-file
+    presetConfig:
+      baseTypesPath: generated/graphql-types.ts
+      extension: .graphql.module.ts
+    plugins:
       - typescript-operations:
-          flattenGeneratedTypes: true
           preResolveTypes: true
           skipTypeNameForRoot: true
           immutableTypes: true
       - typed-document-node
     config:
+      flattenGeneratedTypes: true
       skipTypename: true
       useTypeImports: true
       defaultScalarType: unknown

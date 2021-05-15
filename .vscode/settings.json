@@ -7,16 +7,10 @@
   "files.trimFinalNewlines": true,
   "files.eol": "\n",
 
-  "[prisma]": {
-    "editor.formatOnSave": true
-  },
-
-  "[html]": {
-    "editor.formatOnSave": true
-  },
-  "[css]": {
-    "editor.formatOnSave": true
-  },
+  "[prisma]": { "editor.formatOnSave": true },
+  "[html]": { "editor.formatOnSave": true },
+  "[css]": { "editor.formatOnSave": true },
+  "[graphql]": { "editor.formatOnSave": true },
 
   "graphql-config.load.rootDir": "./frontend",
   "vscode-graphql.showExecCodelens": false,
