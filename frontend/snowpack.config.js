@@ -27,7 +27,7 @@ module.exports = {
       {
         cmd: 'graphql-codegen',
         watch: 'graphql-codegen --watch',
-        name: 'GraphQL types',
+        name: 'graphql-codegen',
       },
     ],
   ],
