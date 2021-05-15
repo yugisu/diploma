@@ -32,21 +32,19 @@ export const Button = ({
 
         disabled ? 'cursor-not-allowed' : 'cursor-pointer',
 
-        defaultAppearance &&
-          clsx(
-            'bg-gray-400 ring-opacity-10',
-            disabled
-              ? 'bg-opacity-10 text-gray-500 dark:text-gray-300'
-              : 'bg-opacity-20 hover:bg-opacity-30 text-gray-700 dark:text-gray-200',
-          ),
+        defaultAppearance && [
+          'bg-gray-400 ring-opacity-10',
+          disabled
+            ? 'bg-opacity-10 text-gray-500 dark:text-gray-300'
+            : 'bg-opacity-20 hover:bg-opacity-30 text-gray-700 dark:text-gray-200',
+        ],
 
-        primary &&
-          clsx(
-            'bg-primary ring-opacity-40',
-            disabled
-              ? 'bg-opacity-80 text-gray-50'
-              : 'bg-opacity-95 hover:bg-opacity-100 focus:bg-opacity-100 text-white',
-          ),
+        primary && [
+          'bg-primary ring-opacity-40',
+          disabled
+            ? 'bg-opacity-80 text-gray-50'
+            : 'bg-opacity-95 hover:bg-opacity-100 focus:bg-opacity-100 text-white',
+        ],
 
         loading && 'animate-pulse',
 

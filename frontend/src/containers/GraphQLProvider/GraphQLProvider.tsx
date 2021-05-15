@@ -56,7 +56,14 @@ type Props = {
 }
 
 export const GraphQLProvider = ({ children }: Props) => {
-  useEffect(() => () => void client.resetStore(), [])
+  // Clear Apollo cache on unmount
+  useEffect(
+    () => () => {
+      client.stop()
+      client.resetStore()
+    },
+    [],
+  )
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>
 }

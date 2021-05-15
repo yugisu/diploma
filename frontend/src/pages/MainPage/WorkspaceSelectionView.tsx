@@ -1,67 +1,72 @@
 import React from 'react'
-import { gql, useQuery } from '@apollo/client'
-import { UserAddIcon } from '@heroicons/react/solid'
-
-import { GetCurrentUserSessionDocument } from 'generated/graphql-query-types'
+import { useMutation, useQuery } from '@apollo/client'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Button } from 'components/Common/Button'
 
-const CURRENT_USER_QUERY = gql`
-  query getCurrentUserSession {
-    currentUserSession {
-      id
-      user {
-        id
-        name
-
-        profiles {
-          id
-          workspace {
-            id
-            name
-          }
-        }
-      }
-      profile {
-        id
-      }
-    }
-  }
-` as typeof GetCurrentUserSessionDocument
+import * as Gql from './WorkspaceSelectionView.graphql.module'
 
 export const WorkspaceSelectionView = () => {
-  const currentSessionQuery = useQuery(CURRENT_USER_QUERY)
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const currentSessionQuery = useQuery(Gql.GetUserSessionForProfilesSelectionDocument)
   const currentSession = currentSessionQuery.data?.currentUserSession
 
-  // In case if the userSession.profile exists, just overwrite the profile field
+  const [runSelectProfileMutation, selectProfileMutation] = useMutation(Gql.SelectProfileDocument)
+
+  const handleSelectProfile = async (profileId: number) => {
+    if (currentSession) {
+      if (profileId !== currentSession.profileId) {
+        await runSelectProfileMutation({ variables: { profileId } })
+      }
+
+      navigate((location.state as { next?: string } | null)?.next || '/')
+    }
+  }
+
+  const mutationLoading = selectProfileMutation.loading
 
   return (
     <div className="max-w-2xl w-full">
       <div className="flex flex-col mb-8">
-        <h2 className="text-5xl mb-3 opacity-80">Select workspace profile</h2>
+        <h2 className="text-6xl mb-6 opacity-90">Welcome</h2>
 
         <div className="animate-appear">
-          <h6>To proceed, please select a profile to login with:</h6>
+          <h6>Please, select a workspace profile to continue with:</h6>
 
           {currentSession && (
-            <ul className="animate-appear pl-6 list-disc">
-              {currentSession.user.profiles.map((profile) => (
-                <li className="my-2" key={profile.id}>
-                  <Button compact>
-                    {currentSession.user.name} @ {profile.workspace.name}
-                  </Button>
-                </li>
-              ))}
+            <>
+              <ul className="my-6 animate-appear pl-6 list-disc">
+                {currentSession.user.profiles.map((profile) => (
+                  <li className="my-2" key={profile.id}>
+                    <Button
+                      onClick={() => handleSelectProfile(profile.id)}
+                      disabled={mutationLoading}
+                      loading={mutationLoading}
+                      compact
+                      primary={profile.id === currentSession.profileId}
+                    >
+                      {currentSession.user.name} @ {profile.workspace.name}{' '}
+                      {profile.id === currentSession.profileId && '(current)'}
+                    </Button>
+                  </li>
+                ))}
+              </ul>
 
-              <li className="my-2">
-                <Button compact>
-                  <UserAddIcon className="inline align-text-bottom" height="1.2em" /> <span>Create a new profile</span>
-                </Button>
-              </li>
-            </ul>
+              {/* TODO: Implement workspace creation flow */}
+              {/* <span>
+                Want to start something new?{' '}
+                <button
+                  disabled
+                  className="px-1 inline-block underline hover:text-primary focus:text-primary"
+                  type="button"
+                >
+                  Create a new workspace
+                </button>
+              </span> */}
+            </>
           )}
-
-          <div>{JSON.stringify(currentSession, null, 2)}</div>
         </div>
       </div>
     </div>
