@@ -23,13 +23,22 @@ const main = async () => {
   await initServer()
 }
 
-main().catch((error) => logger.error(error))
+main()
 
 process.on('uncaughtException', async (err) => {
-  logger.error(`Uncaught exception: ${err.stack?.split('\n')}`)
+  if (err instanceof Error) {
+    logger.log({ level: 'error', message: `${err.stack || err}` })
+  } else {
+    logger.log({ level: 'error', message: err })
+  }
 })
 
 process.on('unhandledRejection', async (err: Error) => {
-  logger.error(`Unhandled rejection: ${err?.stack?.split('\n')}`)
+  if (err instanceof Error) {
+    logger.log({ level: 'error', message: `${err.stack || err}` })
+  } else {
+    logger.log({ level: 'error', message: err })
+  }
+
   process.exit(1)
 })
