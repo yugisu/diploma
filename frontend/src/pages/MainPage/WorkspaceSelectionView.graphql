@@ -17,7 +17,7 @@ query GetUserSessionForProfilesSelection {
   }
 }
 
-mutation SelectProfile($profileId: Int!) {
+mutation SelectProfile($profileId: String!) {
   selectWorkspaceProfile(profileId: $profileId) {
     id
     profileId

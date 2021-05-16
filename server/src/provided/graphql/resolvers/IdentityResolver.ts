@@ -1,11 +1,11 @@
-import { Args, ArgsType, Ctx, Field, Int, Mutation, Query, Resolver } from 'type-graphql'
+import { Args, ArgsType, Ctx, Field, Mutation, Query, Resolver } from 'type-graphql'
 
 import { UserSession } from 'generated/typegraphql-prisma'
 
 @ArgsType()
 class SelectWorkspaceProfileArgs {
-  @Field(() => Int, { nullable: false })
-  profileId!: number
+  @Field(() => String, { nullable: false })
+  profileId!: string
 }
 
 @Resolver()

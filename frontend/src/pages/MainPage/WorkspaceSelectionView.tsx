@@ -15,7 +15,7 @@ export const WorkspaceSelectionView = () => {
 
   const [runSelectProfileMutation, selectProfileMutation] = useMutation(Gql.SelectProfileDocument)
 
-  const handleSelectProfile = async (profileId: number) => {
+  const handleSelectProfile = async (profileId: string) => {
     if (currentSession) {
       if (profileId !== currentSession.profileId) {
         await runSelectProfileMutation({ variables: { profileId } })
