@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon --config nodemon.json",
-    "start:once": "tsc && cross-env NODE_ENV=development NODE_PATH=build/ node --inspect=3001 ./build/",
-    "build": "rimraf build/ && tsc",
+    "start:once": "cross-env NODE_ENV=development ts-node --files -P ./tsconfig.build.json -r tsconfig-paths/register ./src/index.ts",
+    "build": "rimraf build/ && tsc -p ./tsconfig.build.json",
     "test": "node -r tsconfig-paths/register node_modules/.bin/jest"
   },
   "dependencies": {
