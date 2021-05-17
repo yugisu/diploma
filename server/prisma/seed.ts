@@ -29,6 +29,76 @@ async function main() {
       },
     },
   })
+
+  const bobbyProfile = (await prisma.profile.findFirst({ where: { user: { email: 'bobby@mail.com' } } }))!
+  const helenProfile = (await prisma.profile.findFirst({ where: { user: { email: 'helen@mail.com' } } }))!
+  const mistyProfile = (await prisma.profile.findFirst({ where: { user: { email: 'misty@mail.com' } } }))!
+
+  await prisma.conversation.create({
+    data: {
+      title: 'Discussing stuff',
+      createdById: bobbyProfile.id,
+      participants: {
+        createMany: {
+          data: [
+            {
+              profileId: bobbyProfile.id,
+            },
+            {
+              profileId: helenProfile.id,
+            },
+          ],
+        },
+      },
+      messages: {
+        createMany: {
+          data: [
+            {
+              content: 'Hello world!',
+              createdById: bobbyProfile.id,
+            },
+            {
+              content: 'Hey Bobby!',
+              createdById: helenProfile.id,
+            },
+          ],
+        },
+      },
+    },
+  })
+
+  await prisma.conversation.create({
+    data: {
+      title: 'Mysterious mist?',
+      createdById: mistyProfile.id,
+      participants: {
+        createMany: {
+          data: [
+            {
+              profileId: mistyProfile.id,
+            },
+            {
+              profileId: bobbyProfile.id,
+            },
+          ],
+        },
+      },
+      messages: {
+        createMany: {
+          data: [
+            {
+              content: 'Hey guys!',
+              createdById: mistyProfile.id,
+            },
+            {
+              content: 'Hey Misty!',
+              createdById: bobbyProfile.id,
+            },
+          ],
+        },
+      },
+    },
+  })
 }
 
 main()

@@ -58,30 +58,70 @@ model UserSession {
 }
 
 model Profile {
-  id                     String            @id @default(cuid())
-  createdAt              DateTime          @default(now())
-  userRole               UserWorkspaceRole @default(USER)
-  status                 ProfileStatus     @default(CREATED)
+  id                      String                    @id @default(cuid())
+  createdAt               DateTime                  @default(now())
+  userRole                UserWorkspaceRole         @default(USER)
+  status                  ProfileStatus             @default(CREATED)
   //
-  userId                 String
-  user                   User              @relation(fields: [userId], references: [id])
+  userId                  String
+  user                    User                      @relation(fields: [userId], references: [id])
   //
-  workspaceId            String
-  workspace              Workspace         @relation(fields: [workspaceId], references: [id])
+  workspaceId             String
+  workspace               Workspace                 @relation(fields: [workspaceId], references: [id])
   //
-  userSessions           UserSession[]
+  userSessions            UserSession[]
   //
-  createdByTasks         Task[]            @relation(name: "TaskCreatedByProfile")
+  createdByConversations  Conversation[]            @relation(name: "ConversationCreatorProfile")
   //
-  assignedToTasks        Task[]            @relation(name: "TaskAssigneesProfiles")
+  conversationParticipant ConversationParticipant[]
   //
-  createdByConversations Conversation[]    @relation(name: "ConversationCreatorProfile")
+  messages                Message[]                 @relation("MessageCreatedByProfile")
   //
-  conversations          Conversation[]    @relation(name: "ConversationParticipant")
+  createdByTasks          Task[]                    @relation(name: "TaskCreatedByProfile")
   //
-  messages               Message[]         @relation("MessageCreatedByProfile")
+  assignedToTasks         Task[]                    @relation(name: "TaskAssigneesProfiles")
 
   @@unique([userId, workspaceId])
+}
+
+model ConversationParticipant {
+  createdAt      DateTime     @default(now())
+  //
+  profileId      String
+  profile        Profile      @relation(fields: [profileId], references: [id])
+  //
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+
+  @@id([profileId, conversationId])
+}
+
+model Conversation {
+  id               String                    @id @default(cuid())
+  createdAt        DateTime                  @default(now())
+  title            String?
+  //
+  createdById      String
+  createdByProfile Profile                   @relation(name: "ConversationCreatorProfile", fields: [createdById], references: [id])
+  //
+  participants     ConversationParticipant[]
+  //
+  messages         Message[]
+  //
+  task             Task?
+}
+
+model Message {
+  id               String       @id @default(cuid())
+  createdAt        DateTime     @default(now())
+  changedAt        DateTime     @default(now())
+  content          String
+  //
+  createdById      String
+  createdByProfile Profile      @relation(name: "MessageCreatedByProfile", fields: [createdById], references: [id])
+  //
+  conversationId   String
+  conversation     Conversation @relation(fields: [conversationId], references: [id])
 }
 
 model Task {
@@ -97,32 +137,4 @@ model Task {
   //
   conversationId    String?
   conversation      Conversation? @relation(fields: [conversationId], references: [id])
-}
-
-model Conversation {
-  id                   String    @id @default(cuid())
-  createdAt            DateTime  @default(now())
-  title                String?
-  //
-  createdById          String
-  createdByProfile     Profile   @relation(name: "ConversationCreatorProfile", fields: [createdById], references: [id])
-  //
-  participantsProfiles Profile[] @relation(name: "ConversationParticipant")
-  //
-  messages             Message[]
-  //
-  task                 Task?
-}
-
-model Message {
-  id               String       @id @default(cuid())
-  createdAt        DateTime     @default(now())
-  changedAt        DateTime     @default(now())
-  content          String
-  //
-  createdById      String
-  createdByProfile Profile      @relation(name: "MessageCreatedByProfile", fields: [createdById], references: [id])
-  //
-  conversationId   String
-  conversation     Conversation @relation(fields: [conversationId], references: [id])
 }
