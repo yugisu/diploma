@@ -15,7 +15,7 @@ export const Topbar = () => {
   const preferredTheme = useReactiveVar(preferredThemeVar)
 
   return (
-    <PageHeader>
+    <PageHeader className="shadow-sm">
       <div className="w-full flex justify-between">
         <Logo>Diploma</Logo>
 

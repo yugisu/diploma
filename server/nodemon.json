@@ -9,5 +9,6 @@
     "src/**/*",
     "../shared/build/**/*"
   ],
-  "exec": "yarn start:once"
+  "exec": "yarn start:once",
+  "delay": 200
 }

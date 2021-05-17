@@ -1,0 +1,6 @@
+query GetConversationList {
+  conversationList {
+    id
+    title
+  }
+}
