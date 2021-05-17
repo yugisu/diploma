@@ -1,5 +1,5 @@
 START_DELAY_SERVER=4
-START_DELAY_FRONTEND=11
+START_DELAY_FRONTEND=12
 
 trap "exit" INT TERM
 trap "docker-compose down && kill 0" EXIT

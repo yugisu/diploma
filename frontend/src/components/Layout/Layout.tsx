@@ -21,9 +21,9 @@ export const PageHeader = styled.header`
   left: 0;
   right: 0;
 
-  height: 3rem;
+  height: 2.75rem;
 
-  padding: 0 4rem;
+  padding: 0 1rem;
   display: flex;
   align-items: center;
 `
@@ -31,7 +31,6 @@ export const PageHeader = styled.header`
 export const PageBody = styled.div`
   flex: 1 0;
 
-  padding: 2rem 4rem 5rem;
   display: flex;
   flex-direction: column;
 `

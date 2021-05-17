@@ -28,34 +28,35 @@ export const WorkspaceSelectionView = () => {
   const mutationLoading = selectProfileMutation.loading
 
   return (
-    <div className="max-w-2xl w-full">
-      <div className="flex flex-col mb-8">
-        <h2 className="text-6xl mb-6 opacity-90">Welcome</h2>
+    <div className="flex-1 p-10 pb-20 flex flex-col justify-center items-center">
+      <div className="max-w-lg w-full">
+        <div className="flex flex-col mb-8">
+          <h2 className="text-6xl mb-6 opacity-90">Welcome</h2>
 
-        <div className="animate-appear">
-          <h6>Please, select a workspace profile to continue with:</h6>
+          <div className="animate-appear">
+            <h6>Please, select a workspace profile to continue with:</h6>
 
-          {currentSession && (
-            <>
-              <ul className="my-6 animate-appear pl-6 list-disc">
-                {currentSession.user.profiles.map((profile) => (
-                  <li className="my-2" key={profile.id}>
-                    <Button
-                      onClick={() => handleSelectProfile(profile.id)}
-                      disabled={mutationLoading}
-                      loading={mutationLoading}
-                      compact
-                      primary={profile.id === currentSession.profileId}
-                    >
-                      {currentSession.user.name} @ {profile.workspace.name}{' '}
-                      {profile.id === currentSession.profileId && '(current)'}
-                    </Button>
-                  </li>
-                ))}
-              </ul>
+            {currentSession && (
+              <>
+                <ul className="my-6 animate-appear pl-6 list-disc">
+                  {currentSession.user.profiles.map((profile) => (
+                    <li className="my-2" key={profile.id}>
+                      <Button
+                        onClick={() => handleSelectProfile(profile.id)}
+                        disabled={mutationLoading}
+                        loading={mutationLoading}
+                        compact
+                        primary={profile.id === currentSession.profileId}
+                      >
+                        {currentSession.user.name} @ {profile.workspace.name}{' '}
+                        {profile.id === currentSession.profileId && '(current)'}
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
 
-              {/* TODO: Implement workspace creation flow */}
-              {/* <span>
+                {/* TODO: Implement workspace creation flow */}
+                {/* <span>
                 Want to start something new?{' '}
                 <button
                   disabled
@@ -65,8 +66,9 @@ export const WorkspaceSelectionView = () => {
                   Create a new workspace
                 </button>
               </span> */}
-            </>
-          )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
