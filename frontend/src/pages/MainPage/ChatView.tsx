@@ -1,12 +1,17 @@
 import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useMatch } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
+import clsx from 'clsx'
 
 import { Separator } from 'components/Common/Separator'
 
 import * as Gql from './ChatView.graphql.module'
 
 export const ChatView = () => {
+  const pathMatch = useMatch(`chat/:chatId`)
+
+  const currentConversationId = pathMatch?.params.chatId
+
   const conversationsQuery = useQuery(Gql.GetConversationListDocument)
   const conversationsList = conversationsQuery.data?.conversationList || []
 
@@ -28,7 +33,9 @@ export const ChatView = () => {
                     className="h-12 py-2 px-4 flex items-center hover:bg-gray-500 hover:bg-opacity-5 focus:bg-gray-500 focus:bg-opacity-5 focus:outline-none border border-transparent focus:border-primary ring-primary ring-opacity-10 focus:ring focus:ring-inset"
                     to={conversation.id}
                   >
-                    <span>{conversation.title}</span>
+                    <span className={clsx(conversation.id === currentConversationId && 'font-bold')}>
+                      {conversation.title}
+                    </span>
                   </Link>
                 </li>
 
