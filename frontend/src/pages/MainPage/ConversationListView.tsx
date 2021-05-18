@@ -5,12 +5,12 @@ import clsx from 'clsx'
 
 import { Separator } from 'components/Common/Separator'
 
-import * as Gql from './ChatView.graphql.module'
+import * as Gql from './ConversationListView.graphql.module'
 
-export const ChatView = () => {
-  const pathMatch = useMatch(`chat/:chatId`)
+export const ConversationListView = () => {
+  const pathMatch = useMatch('c/:conversationId')
 
-  const currentConversationId = pathMatch?.params.chatId
+  const currentConversationId = pathMatch?.params.conversationId
 
   const conversationsQuery = useQuery(Gql.GetConversationListDocument)
   const conversationsList = conversationsQuery.data?.conversationList || []

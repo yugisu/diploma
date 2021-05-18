@@ -11,7 +11,7 @@ import * as Gql from './Conversation.graphql.module'
 export const Conversation = () => {
   const params = useParams()
 
-  const conversationId = params.chatId
+  const { conversationId } = params
 
   // TODO: Re-write this query to use websockets and subscription instead of polling
   const conversationQuery = useQuery(Gql.GetConversationDocument, {

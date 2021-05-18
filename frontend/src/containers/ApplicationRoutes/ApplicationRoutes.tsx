@@ -7,7 +7,7 @@ import { LoginView } from 'pages/AuthPage/LoginView'
 import { RegistrationView } from 'pages/AuthPage/RegistrationView'
 import { RegistrationSuccessView } from 'pages/AuthPage/RegistrationSuccessView'
 import { WorkspaceSelectionView } from 'pages/MainPage/WorkspaceSelectionView'
-import { ChatView } from 'pages/MainPage/ChatView'
+import { ConversationListView } from 'pages/MainPage/ConversationListView'
 
 import { GraphQLProvider } from 'containers/GraphQLProvider/GraphQLProvider'
 import { Conversation } from 'containers/Conversation/Conversation'
@@ -31,12 +31,12 @@ export const ApplicationRoutes = () => {
       >
         <Route path="workspace-selection" element={<WorkspaceSelectionView />} />
 
-        <Route path="chat" element={<ChatView />}>
-          <Route path=":chatId" element={<Conversation />} />
-          <Route path="/" element={<div>Select chat</div>} />
+        <Route path="c" element={<ConversationListView />}>
+          <Route path=":conversationId" element={<Conversation />} />
+          <Route path="/" element={<div>Select conversation</div>} />
         </Route>
 
-        <Route path="*" element={<Navigate to="chat" />} />
+        <Route path="*" element={<Navigate to="c" />} />
       </Route>
     </Routes>
   )
