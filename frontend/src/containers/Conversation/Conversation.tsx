@@ -36,8 +36,11 @@ export const Conversation = () => {
 
   return (
     <div className="flex-1 flex flex-col">
-      <div className="flex-shrink-0 h-8 py-1 px-4 flex bg-gray-500 bg-opacity-5 shadow-sm">
-        <div className="font-bold text-gray-800 dark:text-gray-200">{conversation?.title}</div>
+      <div className="flex-shrink-0 h-8 py-1 px-4 flex justify-between bg-gray-500 bg-opacity-5 shadow-sm">
+        <span className="font-bold text-gray-800 dark:text-gray-200">
+          {conversation?.title} (
+          {conversation?.participants.map((participant) => participant.profile.user.name).join(', ')})
+        </span>
       </div>
 
       <Separator />

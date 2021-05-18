@@ -2,6 +2,14 @@ query GetConversation($conversationId: String!) {
   conversation(where: { id: $conversationId }) {
     id
     title
+    participants {
+      profile {
+        id
+        user {
+          name
+        }
+      }
+    }
     messages {
       id
       content
