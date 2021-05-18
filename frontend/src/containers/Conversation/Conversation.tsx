@@ -1,4 +1,5 @@
 import React from 'react'
+import { format } from 'date-fns'
 import { useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@apollo/client'
 
@@ -46,9 +47,22 @@ export const Conversation = () => {
       <Separator />
 
       <div className="flex-1 flex flex-col">
-        <ul className="flex-1 flex flex-col">
+        <ul className="flex-1 overflow-y-auto py-3 flex flex-col">
           {conversation?.messages.map((message) => (
-            <div key={message.id}>{message.content}</div>
+            <>
+              <li key={message.id}>
+                <div className="py-1 px-4 flex flex-col">
+                  <div>
+                    <span className="text-sm font-bold">{message.createdByProfile.user.name}</span>
+                    <span className="ml-2 text-xs opacity-50">
+                      {format(new Date(message.createdAt as string), 'H:mm d/M/y')}
+                    </span>
+                  </div>
+
+                  <span>{message.content}</span>
+                </div>
+              </li>
+            </>
           ))}
         </ul>
 
