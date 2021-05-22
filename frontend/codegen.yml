@@ -9,7 +9,6 @@ generates:
     plugins:
       - typescript:
           enumsAsTypes: true
-          onlyOperationTypes: true
           skipTypename: true
           useTypeImports: true
           defaultScalarType: unknown
@@ -25,7 +24,6 @@ generates:
       - typescript-operations:
           preResolveTypes: true
           skipTypeNameForRoot: true
-          immutableTypes: true
       - typed-document-node
     config:
       flattenGeneratedTypes: true
