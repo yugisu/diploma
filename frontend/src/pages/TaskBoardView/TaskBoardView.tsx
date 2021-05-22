@@ -2,20 +2,12 @@ import React from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd'
 import clsx from 'clsx'
+import { Link } from 'react-router-dom'
 
-import { TaskStatus } from 'generated/graphql-types'
+import { taskStatusMap } from 'constants/taskStatusMap'
+import type { TaskStatus } from 'generated/graphql-types'
 
 import * as Gql from './TaskBoardView.graphql.module'
-
-// TODO: Remove this map and make columns configurable
-const statusMap: Record<Exclude<TaskStatus, 'INFO'>, string> = {
-  // eslint-disable-next-line prettier/prettier
-  'TODO': 'To do',
-  IN_PROGRESS: 'In progress',
-  REVIEW: 'Review',
-  QA: 'QA',
-  DONE: 'Done',
-}
 
 export const TaskBoardView = () => {
   const tasksQuery = useQuery(Gql.GetTasksDocument)
@@ -29,9 +21,9 @@ export const TaskBoardView = () => {
 
       if (draggableId && destination) {
         const taskExists = tasks.some((t) => t.id === draggableId)
-        const newStatus = destination.droppableId as keyof typeof statusMap
+        const newStatus = destination.droppableId as TaskStatus
 
-        if (taskExists && newStatus && newStatus !== source.droppableId) {
+        if (taskExists && newStatus in taskStatusMap && newStatus !== source.droppableId) {
           execUpdateTaskStatus({
             variables: {
               taskId: draggableId,
@@ -56,7 +48,7 @@ export const TaskBoardView = () => {
 
       <div className="flex-1 h-full overflow-auto pb-4 px-4 grid grid-cols-5 gap-4">
         <DragDropContext onDragEnd={onTaskDragEnd}>
-          {Object.entries(statusMap).map(([status, statusTitle]) => {
+          {Object.entries(taskStatusMap).map(([status, statusTitle]) => {
             const relatedTasks = tasks?.filter((task) => task.status === status) ?? []
 
             return (
@@ -70,7 +62,7 @@ export const TaskBoardView = () => {
                   >
                     <div
                       style={{ maxWidth: '19rem' }}
-                      className="sticky top-2 ml-2 mt-2 px-3 py-1 w-min truncate font-bold text-sm rounded shadow bg-gray-100 dark:bg-gray-900"
+                      className="sticky top-2 ml-2 mt-2 px-3 py-1 w-min truncate font-bold text-sm tracking-wide rounded shadow bg-gray-100 dark:bg-gray-900"
                     >
                       {statusTitle}
                     </div>
@@ -85,7 +77,8 @@ export const TaskBoardView = () => {
                       {relatedTasks.map((task, taskIdx) => (
                         <Draggable draggableId={task.id} index={taskIdx} key={task.id}>
                           {(provided, snapshot) => (
-                            <div
+                            <Link
+                              to={task.id}
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
@@ -98,7 +91,7 @@ export const TaskBoardView = () => {
                               <span className="mt-1 text-sm font-bold opacity-70 truncate">
                                 {task.assignees.map((a) => a.profile.user.name).join(', ')}
                               </span>
-                            </div>
+                            </Link>
                           )}
                         </Draggable>
                       ))}

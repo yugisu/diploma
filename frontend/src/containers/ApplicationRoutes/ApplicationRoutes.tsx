@@ -9,6 +9,7 @@ import { RegistrationSuccessView } from 'pages/AuthPage/RegistrationSuccessView'
 import { WorkspaceSelectionView } from 'pages/MainPage/WorkspaceSelectionView'
 import { ConversationListView } from 'pages/ConversationListView/ConversationListView'
 import { TaskBoardView } from 'pages/TaskBoardView/TaskBoardView'
+import { DetailedTaskView } from 'pages/DetailedTaskView/DetailedTaskView'
 
 import { GraphQLProvider } from 'containers/GraphQLProvider/GraphQLProvider'
 import { Conversation } from 'containers/Conversation/Conversation'
@@ -37,7 +38,10 @@ export const ApplicationRoutes = () => {
           <Route path="/" element={<div>Select conversation</div>} />
         </Route>
 
-        <Route path="t" element={<TaskBoardView />} />
+        <Route path="t">
+          <Route path=":taskId" element={<DetailedTaskView />} />
+          <Route path="/" element={<TaskBoardView />} />
+        </Route>
 
         <Route path="*" element={<Navigate to="c" />} />
       </Route>

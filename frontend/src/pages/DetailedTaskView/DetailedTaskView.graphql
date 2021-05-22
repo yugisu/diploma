@@ -1,0 +1,27 @@
+query GetTaskDetails($taskId: String!) {
+  task(where: { id: $taskId }) {
+    id
+    title
+    body
+    status
+    createdAt
+
+    createdByProfile {
+      id
+      user {
+        id
+        name
+      }
+    }
+
+    assignees {
+      profile {
+        id
+        user {
+          id
+          name
+        }
+      }
+    }
+  }
+}

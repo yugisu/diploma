@@ -31,7 +31,6 @@ enum TaskStatus {
   REVIEW
   QA
   DONE
-  INFO
 }
 
 model Workspace {
