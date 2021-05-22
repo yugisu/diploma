@@ -22,7 +22,11 @@ export const MainPage = () => {
     return <Navigate to="/auth/login" state={{ next: location.pathname }} replace />
   }
 
-  if (!location.pathname.includes('workspace-selection') && currentSession && !currentSession.profileId) {
+  if (!currentSession) {
+    return null
+  }
+
+  if (!location.pathname.includes('workspace-selection') && !currentSession.profileId) {
     return <Navigate to="/workspace-selection" state={{ next: location.pathname }} replace />
   }
 
