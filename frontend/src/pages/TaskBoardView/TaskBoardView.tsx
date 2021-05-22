@@ -9,7 +9,8 @@ import * as Gql from './TaskBoardView.graphql.module'
 
 // TODO: Remove this map and make columns configurable
 const statusMap: Record<Exclude<TaskStatus, 'INFO'>, string> = {
-  TODO: 'To do',
+  // eslint-disable-next-line prettier/prettier
+  'TODO': 'To do',
   IN_PROGRESS: 'In progress',
   REVIEW: 'Review',
   QA: 'QA',
@@ -22,31 +23,29 @@ export const TaskBoardView = () => {
 
   const [execUpdateTaskStatus] = useMutation(Gql.UpdateTaskStatusDocument)
 
-  if (!tasks) {
-    return null
-  }
-
   const onTaskDragEnd = (result: DropResult) => {
-    const { draggableId, destination, source } = result
+    if (tasks) {
+      const { draggableId, destination, source } = result
 
-    if (draggableId && destination) {
-      const taskExists = tasks.some((t) => t.id === draggableId)
-      const newStatus = destination.droppableId as keyof typeof statusMap
+      if (draggableId && destination) {
+        const taskExists = tasks.some((t) => t.id === draggableId)
+        const newStatus = destination.droppableId as keyof typeof statusMap
 
-      if (taskExists && newStatus && newStatus !== source.droppableId) {
-        execUpdateTaskStatus({
-          variables: {
-            taskId: draggableId,
-            newStatus,
-          },
-          optimisticResponse: {
-            updateTask: {
-              __typename: 'Task',
-              id: draggableId,
-              status: newStatus,
+        if (taskExists && newStatus && newStatus !== source.droppableId) {
+          execUpdateTaskStatus({
+            variables: {
+              taskId: draggableId,
+              newStatus,
             },
-          },
-        })
+            optimisticResponse: {
+              updateTask: {
+                __typename: 'Task',
+                id: draggableId,
+                status: newStatus,
+              },
+            },
+          })
+        }
       }
     }
   }
@@ -58,7 +57,7 @@ export const TaskBoardView = () => {
       <div className="flex-1 h-full overflow-auto pb-4 px-4 grid grid-cols-5 gap-4">
         <DragDropContext onDragEnd={onTaskDragEnd}>
           {Object.entries(statusMap).map(([status, statusTitle]) => {
-            const relatedTasks = tasks.filter((task) => task.status === status)
+            const relatedTasks = tasks?.filter((task) => task.status === status) ?? []
 
             return (
               <Droppable droppableId={status} key={status}>
