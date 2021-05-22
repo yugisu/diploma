@@ -9,7 +9,8 @@ import {
 } from 'generated/typegraphql-prisma'
 
 import { IdentityResolver } from './resolvers/IdentityResolver'
-import { ChatResolver } from './resolvers/ChatResolver'
+import { GeneralConversationResolver } from './resolvers/GeneralConversationResolver'
+import { ConversationResolver } from './resolvers/ConversationResolver'
 
 export const getGqlSchema = async () => {
   const graphqlSchema = await buildSchema({
@@ -19,10 +20,12 @@ export const getGqlSchema = async () => {
       ProfileCrudResolver,
       UserCrudResolver,
       WorkspaceCrudResolver,
+      FindUniqueConversationResolver,
+
       // Custom resolvers
       IdentityResolver,
-      ChatResolver,
-      FindUniqueConversationResolver,
+      GeneralConversationResolver,
+      ConversationResolver,
     ],
     validate: false,
   })

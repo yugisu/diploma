@@ -1,0 +1,15 @@
+query GetConversationList {
+  conversationList {
+    id
+    title
+    lastMessage {
+      id
+      createdByProfile {
+        user {
+          name
+        }
+      }
+      content
+    }
+  }
+}

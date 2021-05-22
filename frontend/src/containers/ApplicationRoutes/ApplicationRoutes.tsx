@@ -7,7 +7,7 @@ import { LoginView } from 'pages/AuthPage/LoginView'
 import { RegistrationView } from 'pages/AuthPage/RegistrationView'
 import { RegistrationSuccessView } from 'pages/AuthPage/RegistrationSuccessView'
 import { WorkspaceSelectionView } from 'pages/MainPage/WorkspaceSelectionView'
-import { ConversationListView } from 'pages/MainPage/ConversationListView'
+import { ConversationListView } from 'pages/ConversationListView/ConversationListView'
 
 import { GraphQLProvider } from 'containers/GraphQLProvider/GraphQLProvider'
 import { Conversation } from 'containers/Conversation/Conversation'

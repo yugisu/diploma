@@ -12,7 +12,7 @@ class SendMessageArgs {
 }
 
 @Resolver()
-export class ChatResolver {
+export class GeneralConversationResolver {
   @Query(() => [Conversation])
   async conversationList(@Ctx() ctx: GqlContext): Promise<Conversation[]> {
     if (!ctx.state.profileId) {
