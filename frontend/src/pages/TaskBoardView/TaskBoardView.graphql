@@ -1,0 +1,26 @@
+query GetTasks {
+  tasks {
+    id
+    title
+    body
+    status
+
+    createdByProfile {
+      id
+      user {
+        id
+        name
+      }
+    }
+
+    assignees {
+      profile {
+        id
+        user {
+          id
+          name
+        }
+      }
+    }
+  }
+}

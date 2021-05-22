@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useReactiveVar } from '@apollo/client'
 import { SunIcon, MoonIcon } from '@heroicons/react/solid'
+import { NavLink } from 'react-router-dom'
 
 import { authVar } from 'vars/authVar'
 import { preferredThemeVar } from 'vars/preferredThemeVar'
@@ -18,6 +19,24 @@ export const Topbar = () => {
     <PageHeader className="shadow-sm">
       <div className="w-full flex justify-between">
         <Logo>Diploma</Logo>
+
+        {isAuthenticated && (
+          <div className="flex items-center">
+            {([
+              ['Conversations', '/c'],
+              ['Tasks', '/t'],
+            ] as const).map(([title, path]) => (
+              <NavLink
+                to={path}
+                className="px-1 opacity-90 hover:opacity-100"
+                activeClassName="text-primary"
+                key={path}
+              >
+                {title}
+              </NavLink>
+            ))}
+          </div>
+        )}
 
         <div className="flex items-center">
           {isAuthenticated && (

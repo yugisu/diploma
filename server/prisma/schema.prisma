@@ -24,12 +24,24 @@ enum ProfileStatus {
   SUSPENDED
 }
 
+// TODO: Make it a table so it can be configured by users
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  REVIEW
+  QA
+  DONE
+  INFO
+}
+
 model Workspace {
   id           String    @id @default(cuid())
   createdAt    DateTime  @default(now())
   name         String
   //
   userProfiles Profile[]
+  //
+  tasks        Task[]
 }
 
 model User {
@@ -79,7 +91,7 @@ model Profile {
   //
   createdByTasks          Task[]                    @relation(name: "TaskCreatedByProfile")
   //
-  assignedToTasks         Task[]                    @relation(name: "TaskAssigneesProfiles")
+  assignedToTasks         TaskAssignee[]
 
   @@unique([userId, workspaceId])
 }
@@ -124,17 +136,33 @@ model Message {
   conversation     Conversation @relation(fields: [conversationId], references: [id])
 }
 
+model TaskAssignee {
+  createdAt DateTime @default(now())
+  //
+  profileId String
+  profile   Profile  @relation(fields: [profileId], references: [id])
+  //
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id])
+
+  @@id([profileId, taskId])
+}
+
 model Task {
-  id                String        @id @default(cuid())
-  createdAt         DateTime      @default(now())
-  title             String?
-  body              String?
+  id               String         @id @default(cuid())
+  createdAt        DateTime       @default(now())
+  title            String?
+  body             String?
+  status           TaskStatus     @default(TODO)
   //
-  createdById       String
-  createdByProfile  Profile       @relation(name: "TaskCreatedByProfile", fields: [createdById], references: [id])
+  createdById      String
+  createdByProfile Profile        @relation(name: "TaskCreatedByProfile", fields: [createdById], references: [id])
   //
-  assigneesProfiles Profile[]     @relation(name: "TaskAssigneesProfiles")
+  workspaceId      String
+  workspace        Workspace      @relation(fields: [workspaceId], references: [id])
   //
-  conversationId    String?
-  conversation      Conversation? @relation(fields: [conversationId], references: [id])
+  assignees        TaskAssignee[]
+  //
+  conversationId   String?
+  conversation     Conversation?  @relation(fields: [conversationId], references: [id])
 }

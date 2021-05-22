@@ -30,6 +30,8 @@ async function main() {
     },
   })
 
+  const workspace = (await prisma.workspace.findFirst({ where: { name: 'Fancy place' } }))!
+
   const bobbyProfile = (await prisma.profile.findFirst({ where: { user: { email: 'bobby@mail.com' } } }))!
   const helenProfile = (await prisma.profile.findFirst({ where: { user: { email: 'helen@mail.com' } } }))!
   const mistyProfile = (await prisma.profile.findFirst({ where: { user: { email: 'misty@mail.com' } } }))!
@@ -93,6 +95,42 @@ async function main() {
             {
               content: 'Hey Misty!',
               createdById: bobbyProfile.id,
+            },
+          ],
+        },
+      },
+    },
+  })
+
+  await prisma.task.create({
+    data: {
+      title: 'Research that mysterious mist',
+      createdById: bobbyProfile.id,
+      body: 'A research must be performed...',
+      workspaceId: workspace.id,
+      assignees: {
+        createMany: {
+          data: [
+            {
+              profileId: mistyProfile.id,
+            },
+          ],
+        },
+      },
+    },
+  })
+
+  await prisma.task.create({
+    data: {
+      title: 'Do some stuff',
+      createdById: helenProfile.id,
+      body: 'Some stuff description',
+      workspaceId: workspace.id,
+      assignees: {
+        createMany: {
+          data: [
+            {
+              profileId: bobbyProfile.id,
             },
           ],
         },

@@ -2,10 +2,9 @@ import { buildSchema } from 'type-graphql'
 
 import {
   relationResolvers,
-  ProfileCrudResolver,
-  UserCrudResolver,
   WorkspaceCrudResolver,
   FindUniqueConversationResolver,
+  TaskCrudResolver,
 } from 'generated/typegraphql-prisma'
 
 import { IdentityResolver } from './resolvers/IdentityResolver'
@@ -17,10 +16,9 @@ export const getGqlSchema = async () => {
     resolvers: [
       // Generated resolvers
       ...relationResolvers,
-      ProfileCrudResolver,
-      UserCrudResolver,
       WorkspaceCrudResolver,
       FindUniqueConversationResolver,
+      TaskCrudResolver,
 
       // Custom resolvers
       IdentityResolver,

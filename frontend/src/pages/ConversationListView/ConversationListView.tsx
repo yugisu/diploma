@@ -19,8 +19,6 @@ export const ConversationListView = () => {
 
   return (
     <>
-      <Separator />
-
       <div className="h-full flex-1 flex">
         <div className="w-96 flex-shrink-0 flex flex-col">
           <div className="flex-shrink-0 h-8 py-1 px-4 flex bg-gray-500 bg-opacity-5 shadow-sm" />
