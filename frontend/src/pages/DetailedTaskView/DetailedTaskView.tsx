@@ -28,7 +28,7 @@ export const DetailedTaskView = () => {
         <h1 className="text-5xl mb-4">{task.title}</h1>
 
         <h6 className="mb-8 opacity-80">
-          <span className="px-2 py-0.5 text-sm font-bold rounded shadow bg-gray-300 dark:bg-gray-900">
+          <span className="px-2 py-0.5 text-sm font-bold rounded shadow bg-gray-300 dark:bg-gray-600">
             {taskStatusMap[task.status]}
           </span>{' '}
           <span>Assigned to: {task.assignees.map((a) => a.profile.user.name).join(', ')}</span> &bull;{' '}
