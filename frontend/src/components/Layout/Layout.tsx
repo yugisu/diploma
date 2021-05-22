@@ -3,12 +3,11 @@ import styled from 'styled-components'
 export const PageContainer = styled.div`
   position: relative;
 
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
 
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 2.75rem calc(100% - 2.75rem);
 `
 
 export const PageHeader = styled.header`
@@ -29,8 +28,6 @@ export const PageHeader = styled.header`
 `
 
 export const PageBody = styled.div`
-  flex: 1 0;
-
   display: flex;
   flex-direction: column;
 `

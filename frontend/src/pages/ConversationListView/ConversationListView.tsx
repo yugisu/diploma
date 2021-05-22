@@ -21,14 +21,14 @@ export const ConversationListView = () => {
     <>
       <Separator />
 
-      <div className="flex-1 flex">
+      <div className="h-full flex-1 flex">
         <div className="w-96 flex-shrink-0 flex flex-col">
           <div className="flex-shrink-0 h-8 py-1 px-4 flex bg-gray-500 bg-opacity-5 shadow-sm" />
 
           <Separator />
 
           {conversationsList.length > 0 && (
-            <ul className="max-h-full flex-1 flex flex-col overflow-y-auto animate-appear">
+            <ul className="flex-1 h-full overflow-y-auto flex flex-col animate-appear">
               {conversationsList.map((conversation) => (
                 <React.Fragment key={conversation.id}>
                   <li>
@@ -56,9 +56,7 @@ export const ConversationListView = () => {
 
         <Separator />
 
-        <div className="flex-1 flex flex-col">
-          <Outlet />
-        </div>
+        <Outlet />
       </div>
     </>
   )

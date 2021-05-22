@@ -37,7 +37,7 @@ export const Conversation = () => {
   }
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="flex-1 h-full flex flex-col">
       <div className="flex-shrink-0 h-8 py-1 px-4 flex justify-between bg-gray-500 bg-opacity-5 shadow-sm">
         <div>
           {conversation && (
@@ -51,29 +51,27 @@ export const Conversation = () => {
 
       <Separator />
 
-      <div className="flex-1 flex flex-col">
-        <ul className="flex-1 overflow-y-auto py-3 flex flex-col">
-          {conversation?.messages.map((message) => (
-            <li key={message.id}>
-              <div className="py-1 px-4 flex flex-col">
-                <div>
-                  <span className="text-sm font-bold">{message.createdByProfile.user.name}</span>
-                  <span className="ml-2 text-xs opacity-50">
-                    {format(new Date(message.createdAt as string), 'H:mm d/M/y')}
-                  </span>
-                </div>
-
-                <span>{message.content}</span>
+      <ul className="flex-1 overflow-y-auto py-3 flex flex-col">
+        {conversation?.messages.map((message) => (
+          <li key={message.id}>
+            <div className="py-1 px-4 flex flex-col">
+              <div>
+                <span className="text-sm font-bold">{message.createdByProfile.user.name}</span>
+                <span className="ml-2 text-xs opacity-50">
+                  {format(new Date(message.createdAt as string), 'H:mm d/M/y')}
+                </span>
               </div>
-            </li>
-          ))}
-        </ul>
 
-        <Separator />
+              <span>{message.content}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
 
-        <div className="flex-shrink-0 h-14 flex bg-gray-500 bg-opacity-5">
-          <MessageTextbox onSend={handleSendMessage} />
-        </div>
+      <Separator />
+
+      <div className="flex-shrink-0 flex flex-col bg-gray-500 bg-opacity-5">
+        <MessageTextbox onSend={handleSendMessage} />
       </div>
     </div>
   )
