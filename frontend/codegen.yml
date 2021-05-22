@@ -27,6 +27,5 @@ generates:
       - typed-document-node
     config:
       flattenGeneratedTypes: true
-      skipTypename: true
       useTypeImports: true
       defaultScalarType: unknown

@@ -24,3 +24,10 @@ query GetTasks {
     }
   }
 }
+
+mutation UpdateTaskStatus($taskId: String!, $newStatus: TaskStatus!) {
+  updateTask(where: { id: $taskId }, data: { status: { set: $newStatus } }) {
+    id
+    status
+  }
+}
