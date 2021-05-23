@@ -56,13 +56,15 @@ export const TaskBoardView = () => {
                 {(droppableProvided, droppableSnapshot) => (
                   <div
                     className={clsx(
-                      'flex-1 relative mt-4 flex flex-col rounded bg-gray-500',
-                      droppableSnapshot.isDraggingOver ? 'bg-opacity-10' : 'bg-opacity-5',
+                      'flex-1 relative mt-4 flex flex-col rounded',
+                      droppableSnapshot.isDraggingOver
+                        ? 'bg-gray-600 bg-opacity-10 dark:bg-gray-800 dark:bg-opacity-70'
+                        : 'bg-gray-800 bg-opacity-5 dark:bg-gray-800 dark:bg-opacity-40',
                     )}
                   >
                     <div
-                      style={{ maxWidth: '19rem' }}
-                      className="sticky top-2 ml-2 mt-2 px-3 py-1 w-min truncate font-bold text-sm tracking-wide rounded shadow bg-gray-100 dark:bg-gray-900"
+                      style={{ maxWidth: `calc(100% - 2.75rem - ${relatedTasks.length.toString().length}ch)` }}
+                      className="sticky top-2 ml-2 mt-2 px-3 py-1 w-min truncate font-bold text-sm tracking-wide rounded shadow bg-bg border border-gray-400 border-opacity-40 dark:border-gray-900 dark:border-opacity-40"
                     >
                       {statusTitle}
                     </div>
@@ -76,15 +78,14 @@ export const TaskBoardView = () => {
                     >
                       {relatedTasks.map((task, taskIdx) => (
                         <Draggable draggableId={task.id} index={taskIdx} key={task.id}>
-                          {(provided, snapshot) => (
+                          {(provided) => (
                             <Link
                               to={task.id}
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               className={clsx(
-                                'my-1 px-3 py-2 flex flex-col rounded bg-gray-200 dark:bg-gray-800',
-                                !snapshot.isDragging && 'shadow-sm',
+                                'my-1 px-3 py-2 flex flex-col rounded shadow-sm bg-bg border border-gray-400 border-opacity-50 dark:border-gray-900 dark:border-opacity-40',
                               )}
                             >
                               <span className="truncate">{task.title}</span>
