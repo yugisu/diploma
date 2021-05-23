@@ -1,16 +1,15 @@
 query GetTasks {
   tasks {
     id
-    title
     status
 
-    assignees {
-      profile {
+    activity {
+      id
+      title
+
+      assignees: participants(where: { role: { equals: DEFAULT } }) {
         id
-        user {
-          id
-          name
-        }
+        name
       }
     }
   }

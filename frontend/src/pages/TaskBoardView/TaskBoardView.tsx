@@ -88,9 +88,9 @@ export const TaskBoardView = () => {
                                 'my-1 px-3 py-2 flex flex-col rounded shadow-sm bg-bg border border-gray-400 border-opacity-50 dark:border-gray-900 dark:border-opacity-40',
                               )}
                             >
-                              <span className="truncate">{task.title}</span>
+                              <span className="truncate">{task.activity.title}</span>
                               <span className="mt-1 text-sm font-bold opacity-70 truncate">
-                                {task.assignees.map((a) => a.profile.user.name).join(', ')}
+                                {task.activity.assignees.map((p) => p.name).join(', ')}
                               </span>
                             </Link>
                           )}

@@ -41,8 +41,8 @@ export const Conversation = () => {
         <div>
           {conversation && (
             <span className="animate-appear font-bold text-gray-800 dark:text-gray-200">
-              {conversation.title} (
-              {conversation.participants.map((participant) => participant.profile.user.name).join(', ')})
+              {conversation.activity.title} (
+              {conversation.activity.participants.map((participant) => participant.name).join(', ')})
             </span>
           )}
         </div>

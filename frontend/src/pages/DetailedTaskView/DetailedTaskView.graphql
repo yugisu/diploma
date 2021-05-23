@@ -1,26 +1,22 @@
 query GetTaskDetails($taskId: String!) {
   task(where: { id: $taskId }) {
     id
-    title
     body
     status
     createdAt
 
-    createdByProfile {
+    activity {
       id
-      user {
+      title
+
+      owner {
         id
         name
       }
-    }
 
-    assignees {
-      profile {
+      assignees: participants(where: { role: { equals: DEFAULT } }) {
         id
-        user {
-          id
-          name
-        }
+        name
       }
     }
   }
