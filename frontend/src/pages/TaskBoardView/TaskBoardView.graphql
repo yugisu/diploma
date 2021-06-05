@@ -21,3 +21,15 @@ mutation UpdateTaskStatus($taskId: String!, $newStatus: TaskStatus!) {
     status
   }
 }
+
+mutation CreateTaskWithActivity($status: TaskStatus!) {
+  createTaskWithActivity(taskStatus: $status) {
+    id
+    status
+
+    activity {
+      id
+      title
+    }
+  }
+}
