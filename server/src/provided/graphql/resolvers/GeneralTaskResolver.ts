@@ -15,8 +15,12 @@ export class GeneralTaskResolver {
     @Ctx() ctx: GqlContext,
     @Args() { taskStatus }: CreateTaskWithActivityArgs,
   ): Promise<Task> {
+    if (!ctx.state.profileId) {
+      throw new Error('Unauthorized')
+    }
+
     const profile = await ctx.prisma.profile.findUnique({
-      where: { id: ctx.state.profileId! },
+      where: { id: ctx.state.profileId },
       select: { workspaceId: true },
     })
 
@@ -28,6 +32,12 @@ export class GeneralTaskResolver {
             title: 'Untitled',
             workspace: {
               connect: { id: profile!.workspaceId },
+            },
+            participants: {
+              create: {
+                profileId: ctx.state.profileId,
+                role: 'OWNER',
+              },
             },
           },
         },
