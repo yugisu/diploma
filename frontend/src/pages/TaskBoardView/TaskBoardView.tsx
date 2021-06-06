@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd'
 import clsx from 'clsx'
@@ -17,9 +17,11 @@ export const TaskBoardView = () => {
 
   const [execUpdateTaskStatus] = useMutation(Gql.UpdateTaskStatusDocument)
 
-  const [execCreateTask] = useMutation(Gql.CreateTaskWithActivityDocument)
+  const [isDragActive, setIsDragActive] = useState(false)
 
-  const handleTaskStatusUpdate = (result: DropResult) => {
+  const handleTaskDragEnd = (result: DropResult) => {
+    setIsDragActive(false)
+
     if (tasks) {
       const { draggableId, destination, source } = result
 
@@ -46,6 +48,8 @@ export const TaskBoardView = () => {
     }
   }
 
+  const [execCreateTask] = useMutation(Gql.CreateTaskWithActivityDocument)
+
   const handleTaskCreate = (status: TaskStatus) => {
     execCreateTask({
       variables: {
@@ -70,7 +74,7 @@ export const TaskBoardView = () => {
       <div className="flex-shrink-0 h-8 py-1 px-4 flex justify-between bg-gray-500 bg-opacity-5 shadow-sm" />
 
       <div className="flex-1 h-full overflow-auto pb-4 px-4 grid grid-cols-5 gap-4">
-        <DragDropContext onDragEnd={handleTaskStatusUpdate}>
+        <DragDropContext onDragStart={() => setIsDragActive(true)} onDragEnd={handleTaskDragEnd}>
           {Object.entries(taskStatusMap).map(([status, statusTitle]) => {
             const relatedTasks = tasks.filter((task) => task.status === status)
 
@@ -125,15 +129,17 @@ export const TaskBoardView = () => {
 
                       {droppableProvided.placeholder}
 
-                      <div className="w-full my-1 flex opacity-0 group-hover:opacity-50 transition-opacity">
-                        <Button
-                          onClick={() => handleTaskCreate(status as TaskStatus)}
-                          className="w-full text-left"
-                          compact
-                        >
-                          + Create new task
-                        </Button>
-                      </div>
+                      {!isDragActive && (
+                        <div className="w-full my-1 flex opacity-0 group-hover:opacity-40">
+                          <Button
+                            onClick={() => handleTaskCreate(status as TaskStatus)}
+                            className="w-full text-left"
+                            compact
+                          >
+                            + Create new task
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
