@@ -129,6 +129,7 @@ export const TaskBoardView = () => {
 
                       {droppableProvided.placeholder}
 
+                      {/* TODO: Hide this button from being focusable if it's hidden */}
                       {!isDragActive && (
                         <div className="w-full my-1 flex opacity-0 group-hover:opacity-40">
                           <Button

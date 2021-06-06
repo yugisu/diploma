@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useReactiveVar } from '@apollo/client'
-import { SunIcon, MoonIcon } from '@heroicons/react/solid'
+import { SunIcon, MoonIcon, ViewBoardsIcon, ChatAltIcon } from '@heroicons/react/solid'
 import { NavLink } from 'react-router-dom'
 
 import { authVar } from 'vars/authVar'
@@ -21,15 +21,25 @@ export const Topbar = () => {
         <Logo>Diploma</Logo>
 
         {isAuthenticated && (
-          <div className="flex items-center">
+          <div className="px-4 group flex items-center">
             {([
-              ['Conversations', '/c'],
-              ['Tasks', '/t'],
+              [
+                <>
+                  <ChatAltIcon className="inline align-text-bottom" height="1.2em" /> Chats
+                </>,
+                '/c',
+              ],
+              [
+                <>
+                  <ViewBoardsIcon className="inline align-text-bottom" height="1.2em" /> Board
+                </>,
+                '/t',
+              ],
             ] as const).map(([title, path]) => (
               <NavLink
                 to={path}
-                className="px-1 opacity-90 hover:opacity-100"
-                activeClassName="text-primary"
+                className="px-1 opacity-50 group-hover:opacity-100 hover:text-primary-300 transition-opacity"
+                activeClassName="text-primary hover:text-primary"
                 key={path}
               >
                 {title}
