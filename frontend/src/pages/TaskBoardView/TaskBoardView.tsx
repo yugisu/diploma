@@ -71,7 +71,9 @@ export const TaskBoardView = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex-shrink-0 h-8 py-1 px-4 flex justify-between bg-gray-500 bg-opacity-5 shadow-sm" />
+      <div className="flex-shrink-0 h-11 py-1 px-4 flex items-center shadow-md bg-gray-800">
+        <span className="font-bold">All tasks</span>
+      </div>
 
       <div className="flex-1 h-full overflow-auto pb-4 px-4 grid grid-cols-5 gap-4">
         <DragDropContext onDragStart={() => setIsDragActive(true)} onDragEnd={handleTaskDragEnd}>
