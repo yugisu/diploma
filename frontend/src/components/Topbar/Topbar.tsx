@@ -56,7 +56,9 @@ export const Topbar = () => {
 
           <button
             className="w-6 h-6 flex justify-center items-center rounded-full opacity-80 hover:opacity-100 focus:opacity-100 focus:outline-none ring-primary ring-opacity-40 focus:ring"
-            onClick={() => preferredThemeVar(preferredTheme === 'light' ? 'dark' : 'light')}
+            onClick={() => {
+              /* preferredThemeVar(preferredTheme === 'light' ? 'dark' : 'light') */
+            }}
             type="button"
           >
             {preferredTheme === 'light' ? <MoonIcon height="1.2em" /> : <SunIcon height="1.2em" />}

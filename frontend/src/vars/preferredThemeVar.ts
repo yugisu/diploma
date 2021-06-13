@@ -2,6 +2,10 @@ import { makeVar } from '@apollo/client'
 
 import type { ThemeName } from 'styles/theme'
 
+// TODO: Remove next two lines and restyle certain elements to support light theme
+localStorage.setItem('preferredTheme', 'dark')
+document.documentElement.classList.add('dark')
+
 export const preferredThemeVar = makeVar<ThemeName>(
   (localStorage.getItem('preferredTheme') as ThemeName | null) ??
     (document.documentElement.classList.contains('dark') ? 'dark' : 'light'),
