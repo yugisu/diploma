@@ -12,7 +12,6 @@ import { TaskBoardView } from 'pages/TaskBoardView/TaskBoardView'
 import { DetailedTaskView } from 'pages/DetailedTaskView/DetailedTaskView'
 
 import { GraphQLProvider } from 'containers/GraphQLProvider/GraphQLProvider'
-import { Conversation } from 'containers/Conversation/Conversation'
 
 export const ApplicationRoutes = () => {
   return (
@@ -33,10 +32,7 @@ export const ApplicationRoutes = () => {
       >
         <Route path="workspace-selection" element={<WorkspaceSelectionView />} />
 
-        <Route path="c" element={<ConversationListView />}>
-          <Route path=":conversationId" element={<Conversation />} />
-          <Route path="/" element={<div>Select conversation</div>} />
-        </Route>
+        <Route path="c/*" element={<ConversationListView />} />
 
         <Route path="t">
           <Route path=":taskId" element={<DetailedTaskView />} />

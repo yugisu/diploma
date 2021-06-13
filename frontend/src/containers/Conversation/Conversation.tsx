@@ -37,7 +37,7 @@ export const Conversation = () => {
 
   return (
     <div className="flex-1 h-full flex flex-col">
-      <div className="flex-shrink-0 h-8 py-1 px-4 flex justify-between bg-gray-500 bg-opacity-5 shadow-sm">
+      <div className="flex-shrink-0 h-11 py-1 px-4 flex justify-between items-center shadow-md bg-gray-800">
         <div>
           {conversation && (
             <span className="animate-appear font-bold text-gray-800 dark:text-gray-200">
@@ -47,8 +47,6 @@ export const Conversation = () => {
           )}
         </div>
       </div>
-
-      <Separator />
 
       <MessageList messages={conversation?.messages ?? []} />
 
