@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useReactiveVar } from '@apollo/client'
-import { SunIcon, MoonIcon, ViewBoardsIcon, ChatAltIcon } from '@heroicons/react/solid'
+import { SunIcon, MoonIcon, ViewBoardsIcon, ChatAlt2Icon } from '@heroicons/react/solid'
 import { NavLink } from 'react-router-dom'
 
 import { authVar } from 'vars/authVar'
@@ -25,7 +25,7 @@ export const Topbar = () => {
             {([
               [
                 <>
-                  <ChatAltIcon className="inline align-text-bottom" height="1.2em" /> Chats
+                  <ChatAlt2Icon className="inline align-text-bottom" height="1.2em" /> Chats
                 </>,
                 '/c',
               ],
