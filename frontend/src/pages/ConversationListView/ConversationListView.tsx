@@ -35,12 +35,18 @@ export const ConversationListView = () => {
                       to={conversation.id}
                     >
                       <span className={clsx('font-bold', conversation.id === currentConversationId && 'text-primary')}>
-                        {conversation.title}
+                        {conversation.activity.title}
                       </span>
 
                       <span className="max-w-full truncate text-sm opacity-90">
-                        <span>{conversation.lastMessage?.createdByProfile.user.name}</span>:{' '}
-                        <span>{conversation.lastMessage?.content}</span>
+                        {conversation.lastMessage ? (
+                          <>
+                            <span>{conversation.lastMessage.createdByParticipant.name}</span>:{' '}
+                            <span>{conversation.lastMessage.content}</span>
+                          </>
+                        ) : (
+                          <span className="italic opacity-80">No messages yet</span>
+                        )}
                       </span>
                     </Link>
                   </li>

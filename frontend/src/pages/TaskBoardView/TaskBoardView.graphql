@@ -1,16 +1,15 @@
 query GetTasks {
   tasks {
     id
-    title
     status
 
-    assignees {
-      profile {
+    activity {
+      id
+      title
+
+      assignees: participants(where: { role: { equals: DEFAULT } }) {
         id
-        user {
-          id
-          name
-        }
+        name
       }
     }
   }
@@ -20,5 +19,17 @@ mutation UpdateTaskStatus($taskId: String!, $newStatus: TaskStatus!) {
   updateTask(where: { id: $taskId }, data: { status: { set: $newStatus } }) {
     id
     status
+  }
+}
+
+mutation CreateTaskWithActivity($status: TaskStatus!) {
+  createTaskWithActivity(taskStatus: $status) {
+    id
+    status
+
+    activity {
+      id
+      title
+    }
   }
 }

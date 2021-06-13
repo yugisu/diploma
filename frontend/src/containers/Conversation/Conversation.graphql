@@ -1,13 +1,12 @@
 query GetConversation($conversationId: String!) {
   conversation(where: { id: $conversationId }) {
     id
-    title
-    participants {
-      profile {
+    activity {
+      id
+      title
+      participants {
         id
-        user {
-          name
-        }
+        name
       }
     }
     messages {
@@ -15,11 +14,9 @@ query GetConversation($conversationId: String!) {
       content
       createdAt
       # TODO: Move fetching of this data to <Message /> component to enable extensive caching
-      createdByProfile {
+      createdByParticipant {
         id
-        user {
-          name
-        }
+        name
       }
     }
   }
@@ -30,6 +27,5 @@ mutation SendMessage($conversationId: String!, $content: String!) {
     id
     content
     createdAt
-    createdById
   }
 }

@@ -36,14 +36,15 @@ async function main() {
   const helenProfile = (await prisma.profile.findFirst({ where: { user: { email: 'helen@mail.com' } } }))!
   const mistyProfile = (await prisma.profile.findFirst({ where: { user: { email: 'misty@mail.com' } } }))!
 
-  await prisma.conversation.create({
+  await prisma.activity.create({
     data: {
       title: 'Discussing stuff',
-      createdById: bobbyProfile.id,
+      workspaceId: workspace.id,
       participants: {
         createMany: {
           data: [
             {
+              role: 'OWNER',
               profileId: bobbyProfile.id,
             },
             {
@@ -52,31 +53,21 @@ async function main() {
           ],
         },
       },
-      messages: {
-        createMany: {
-          data: [
-            {
-              content: 'Hello world!',
-              createdById: bobbyProfile.id,
-            },
-            {
-              content: 'Hey Bobby!',
-              createdById: helenProfile.id,
-            },
-          ],
-        },
+      conversation: {
+        create: {},
       },
     },
   })
 
-  await prisma.conversation.create({
+  await prisma.activity.create({
     data: {
-      title: 'Mysterious mist?',
-      createdById: mistyProfile.id,
+      title: 'Mysterious mist research',
+      workspaceId: workspace.id,
       participants: {
         createMany: {
           data: [
             {
+              role: 'OWNER',
               profileId: mistyProfile.id,
             },
             {
@@ -85,54 +76,37 @@ async function main() {
           ],
         },
       },
-      messages: {
-        createMany: {
-          data: [
-            {
-              content: 'Hey guys!',
-              createdById: mistyProfile.id,
-            },
-            {
-              content: 'Hey Misty!',
-              createdById: bobbyProfile.id,
-            },
-          ],
+      conversation: {
+        create: {},
+      },
+      task: {
+        create: {
+          body: 'A research must be performed... Object of the research: mysterious mist that appeared over the river.',
         },
       },
     },
   })
 
-  await prisma.task.create({
-    data: {
-      title: 'Research that mysterious mist',
-      createdById: bobbyProfile.id,
-      body: 'A research must be performed...',
-      workspaceId: workspace.id,
-      assignees: {
-        createMany: {
-          data: [
-            {
-              profileId: mistyProfile.id,
-            },
-          ],
-        },
-      },
-    },
-  })
-
-  await prisma.task.create({
+  await prisma.activity.create({
     data: {
       title: 'Do some stuff',
-      createdById: helenProfile.id,
-      body: 'Some stuff description',
       workspaceId: workspace.id,
-      assignees: {
+      participants: {
         createMany: {
           data: [
+            {
+              role: 'OWNER',
+              profileId: helenProfile.id,
+            },
             {
               profileId: bobbyProfile.id,
             },
           ],
+        },
+      },
+      task: {
+        create: {
+          body: 'Some stuff description',
         },
       },
     },

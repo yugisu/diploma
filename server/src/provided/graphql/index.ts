@@ -10,6 +10,9 @@ import {
 import { IdentityResolver } from './resolvers/IdentityResolver'
 import { GeneralConversationResolver } from './resolvers/GeneralConversationResolver'
 import { ConversationResolver } from './resolvers/ConversationResolver'
+import { ActivityParticipantResolver } from './resolvers/ActivityParticipantResolver'
+import { ActivityResolver } from './resolvers/ActivityResolver'
+import { GeneralTaskResolver } from './resolvers/GeneralTaskResolver'
 
 export const getGqlSchema = async () => {
   const graphqlSchema = await buildSchema({
@@ -24,6 +27,9 @@ export const getGqlSchema = async () => {
       IdentityResolver,
       GeneralConversationResolver,
       ConversationResolver,
+      ActivityParticipantResolver,
+      ActivityResolver,
+      GeneralTaskResolver,
     ],
     validate: false,
   })

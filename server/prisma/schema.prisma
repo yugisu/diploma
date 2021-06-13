@@ -33,14 +33,26 @@ enum TaskStatus {
   DONE
 }
 
+enum ActivityParticipantStatus {
+  ACTIVE
+  KICKED
+  BLOCKED
+}
+
+enum ActivityParticipantRole {
+  OWNER
+  ADMIN
+  DEFAULT
+}
+
 model Workspace {
-  id           String    @id @default(cuid())
-  createdAt    DateTime  @default(now())
+  id           String     @id @default(cuid())
+  createdAt    DateTime   @default(now())
   name         String
   //
   userProfiles Profile[]
   //
-  tasks        Task[]
+  activities   Activity[]
 }
 
 model User {
@@ -69,99 +81,87 @@ model UserSession {
 }
 
 model Profile {
-  id                      String                    @id @default(cuid())
-  createdAt               DateTime                  @default(now())
-  userRole                UserWorkspaceRole         @default(USER)
-  status                  ProfileStatus             @default(CREATED)
+  id           String                @id @default(cuid())
+  createdAt    DateTime              @default(now())
+  userRole     UserWorkspaceRole     @default(USER)
+  status       ProfileStatus         @default(CREATED)
   //
-  userId                  String
-  user                    User                      @relation(fields: [userId], references: [id])
+  userId       String
+  user         User                  @relation(fields: [userId], references: [id])
   //
-  workspaceId             String
-  workspace               Workspace                 @relation(fields: [workspaceId], references: [id])
+  workspaceId  String
+  workspace    Workspace             @relation(fields: [workspaceId], references: [id])
   //
-  userSessions            UserSession[]
+  userSessions UserSession[]
   //
-  createdByConversations  Conversation[]            @relation(name: "ConversationCreatorProfile")
-  //
-  conversationParticipant ConversationParticipant[]
-  //
-  messages                Message[]                 @relation("MessageCreatedByProfile")
-  //
-  createdByTasks          Task[]                    @relation(name: "TaskCreatedByProfile")
-  //
-  assignedToTasks         TaskAssignee[]
+  activities   ActivityParticipant[]
 
   @@unique([userId, workspaceId])
 }
 
-model ConversationParticipant {
-  createdAt      DateTime     @default(now())
+model ActivityParticipant {
+  id         String                    @id @default(cuid())
+  createdAt  DateTime                  @default(now())
+  customName String?
+  status     ActivityParticipantStatus @default(ACTIVE)
+  role       ActivityParticipantRole   @default(DEFAULT)
   //
-  profileId      String
-  profile        Profile      @relation(fields: [profileId], references: [id])
+  activityId String
+  activity   Activity                  @relation(fields: [activityId], references: [id])
   //
-  conversationId String
-  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  profileId  String
+  profile    Profile                   @relation(fields: [profileId], references: [id])
+  //
+  messages   Message[]
 
-  @@id([profileId, conversationId])
+  @@unique([activityId, profileId])
 }
 
-model Conversation {
-  id               String                    @id @default(cuid())
-  createdAt        DateTime                  @default(now())
-  title            String?
+model Activity {
+  id           String                @id @default(cuid())
+  createdAt    DateTime              @default(now())
+  title        String?
   //
-  createdById      String
-  createdByProfile Profile                   @relation(name: "ConversationCreatorProfile", fields: [createdById], references: [id])
+  workspaceId  String
+  workspace    Workspace             @relation(fields: [workspaceId], references: [id])
   //
-  participants     ConversationParticipant[]
+  participants ActivityParticipant[]
   //
-  messages         Message[]
+  task         Task?
   //
-  task             Task?
-}
-
-model Message {
-  id               String       @id @default(cuid())
-  createdAt        DateTime     @default(now())
-  changedAt        DateTime     @default(now())
-  content          String
-  //
-  createdById      String
-  createdByProfile Profile      @relation(name: "MessageCreatedByProfile", fields: [createdById], references: [id])
-  //
-  conversationId   String
-  conversation     Conversation @relation(fields: [conversationId], references: [id])
-}
-
-model TaskAssignee {
-  createdAt DateTime @default(now())
-  //
-  profileId String
-  profile   Profile  @relation(fields: [profileId], references: [id])
-  //
-  taskId    String
-  task      Task     @relation(fields: [taskId], references: [id])
-
-  @@id([profileId, taskId])
+  conversation Conversation?
 }
 
 model Task {
-  id               String         @id @default(cuid())
-  createdAt        DateTime       @default(now())
-  title            String?
-  body             String?
-  status           TaskStatus     @default(TODO)
+  id         String     @id @default(cuid())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  body       String?
+  status     TaskStatus @default(TODO)
   //
-  createdById      String
-  createdByProfile Profile        @relation(name: "TaskCreatedByProfile", fields: [createdById], references: [id])
+  activityId String
+  activity   Activity   @relation(fields: [activityId], references: [id])
+}
+
+model Conversation {
+  id         String    @id @default(cuid())
+  createdAt  DateTime  @default(now())
   //
-  workspaceId      String
-  workspace        Workspace      @relation(fields: [workspaceId], references: [id])
+  activityId String
+  activity   Activity  @relation(fields: [activityId], references: [id])
   //
-  assignees        TaskAssignee[]
+  messages   Message[]
+}
+
+model Message {
+  id                     String              @id @default(cuid())
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+  content                String
   //
-  conversationId   String?
-  conversation     Conversation?  @relation(fields: [conversationId], references: [id])
+  createdByParticipantId String
+  createdByParticipant   ActivityParticipant @relation(fields: [createdByParticipantId], references: [id])
+  //
+  conversationId         String
+  conversation           Conversation        @relation(fields: [conversationId], references: [id])
 }

@@ -1,13 +1,16 @@
 query GetConversationList {
   conversationList {
     id
-    title
+
+    activity {
+      id
+      title
+    }
     lastMessage {
       id
-      createdByProfile {
-        user {
-          name
-        }
+      createdByParticipant {
+        id
+        name
       }
       content
     }

@@ -25,14 +25,14 @@ export const DetailedTaskView = () => {
   return (
     <div className="h-full p-16 flex">
       <div className="flex-1 flex flex-col">
-        <h1 className="text-5xl mb-4">{task.title}</h1>
+        <h1 className="text-5xl mb-4">{task.activity.title}</h1>
 
         <h6 className="mb-8 opacity-80">
           <span className="px-2 py-0.5 text-sm font-bold rounded shadow bg-gray-300 dark:bg-gray-600">
             {taskStatusMap[task.status]}
           </span>{' '}
-          <span>Assigned to: {task.assignees.map((a) => a.profile.user.name).join(', ')}</span> &bull;{' '}
-          <span>Created by: {task.createdByProfile.user.name}</span> &bull;{' '}
+          <span>Assigned to: {task.activity.assignees.map((p) => p.name).join(', ')}</span> &bull;{' '}
+          <span>Created by: {task.activity.owner.name}</span> &bull;{' '}
           <span>Created date: {format(new Date(task.createdAt as string), 'd/M/y')}</span>
         </h6>
 

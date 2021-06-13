@@ -6,11 +6,9 @@ type Props = {
     id: string
     content: string
     createdAt: unknown
-    createdByProfile: {
+    createdByParticipant: {
       id: string
-      user: {
-        name: string
-      }
+      name: string
     }
   }[]
 }
@@ -34,7 +32,7 @@ export const MessageList = ({ messages }: Props) => {
         <li key={message.id}>
           <div className="py-1 px-4 flex flex-col">
             <div>
-              <span className="text-sm font-bold">{message.createdByProfile.user.name}</span>
+              <span className="text-sm font-bold">{message.createdByParticipant.name}</span>
               <span className="ml-2 text-xs opacity-50">
                 {format(new Date(message.createdAt as string), 'H:mm d/M/y')}
               </span>
