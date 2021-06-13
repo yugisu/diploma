@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useReactiveVar } from '@apollo/client'
 import { SunIcon, MoonIcon, ViewBoardsIcon, ChatAlt2Icon } from '@heroicons/react/solid'
 import { NavLink } from 'react-router-dom'
@@ -17,8 +16,8 @@ export const Topbar = () => {
 
   return (
     <PageHeader className="shadow-sm">
-      <div className="w-full flex justify-between">
-        <Logo>Diploma</Logo>
+      <div className="h-full w-full flex justify-between">
+        <Logo />
 
         {isAuthenticated && (
           <div className="px-4 group flex items-center">
@@ -68,11 +67,9 @@ export const Topbar = () => {
   )
 }
 
-const Logo = styled.span`
-  display: flex;
-  align-items: center;
-
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 0.8rem;
-`
+const Logo = () => (
+  <h6 className="opacity-100 m-0 p-0 leading-4 flex items-center">
+    <span>proj</span>
+    <span className="text-primary">.</span>
+  </h6>
+)
