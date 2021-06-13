@@ -8,8 +8,11 @@ query GetConversation($conversationId: String!) {
         id
         name
       }
+      task {
+        id
+      }
     }
-    messages {
+    messages(orderBy: { createdAt: asc }) {
       id
       content
       createdAt

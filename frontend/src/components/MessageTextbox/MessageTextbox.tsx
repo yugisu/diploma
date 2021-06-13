@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { PaperAirplaneIcon } from '@heroicons/react/solid'
+import { EmojiHappyIcon, PaperClipIcon } from '@heroicons/react/outline'
 
-import { Separator } from 'components/Common/Separator'
+import { Input } from 'components/Common/Input'
 
 type Props = {
   onSend: (messageContent: string) => void
@@ -9,7 +11,9 @@ type Props = {
 export const MessageTextbox = ({ onSend }: Props) => {
   const [messageContent, setMessageContent] = useState('')
 
-  const handleSend = () => {
+  const handleSend = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
     if (messageContent.length > 0) {
       onSend(messageContent)
 
@@ -18,23 +22,40 @@ export const MessageTextbox = ({ onSend }: Props) => {
   }
 
   return (
-    <div className="flex-1 flex">
-      <textarea
-        className="flex-1 p-2 resize-none placeholder-gray-500 placeholder-opacity-60 focus:placeholder-opacity-90 bg-transparent focus:bg-gray-500 focus:bg-opacity-5 hover:bg-gray-500 hover:bg-opacity-5 focus:outline-none border border-transparent focus:border-primary focus:border-opacity-70"
+    <form className="flex-1 flex flex-col" onSubmit={handleSend}>
+      <Input
+        type="text"
+        name="message"
         value={messageContent}
         onChange={(e) => setMessageContent(e.target.value)}
-        placeholder="Enter message here..."
+        placeholder="Type a new message..."
+        autoComplete="off"
+        fluid
       />
 
-      <Separator />
+      <div className="mt-2 flex justify-between">
+        <div className="flex">
+          <button
+            className="w-8 h-8 flex justify-center items-center rounded-full opacity-80 hover:opacity-100 focus:opacity-100 focus:outline-none ring-primary ring-opacity-40 focus:ring"
+            type="button"
+          >
+            <PaperClipIcon className="inline align-text-bottom" height="1.2em" />
+          </button>
+          <button
+            className="w-8 h-8 flex justify-center items-center rounded-full opacity-80 hover:opacity-100 focus:opacity-100 focus:outline-none ring-primary ring-opacity-40 focus:ring"
+            type="button"
+          >
+            <EmojiHappyIcon className="inline align-text-bottom" height="1.2em" />
+          </button>
+        </div>
 
-      <button
-        className="px-4 font-bold text-gray-700 dark:text-gray-300 focus:outline-none bg-transparent focus:bg-gray-500 focus:bg-opacity-5 hover:bg-gray-500 hover:bg-opacity-5 border border-transparent focus:border-primary focus:border-opacity-70"
-        type="button"
-        onClick={handleSend}
-      >
-        Send
-      </button>
-    </div>
+        <button
+          className="w-8 h-8 flex justify-center items-center rounded-full opacity-80 hover:opacity-100 focus:opacity-100 focus:outline-none ring-primary ring-opacity-40 focus:ring"
+          type="submit"
+        >
+          <PaperAirplaneIcon className="inline align-text-bottom transform rotate-90" height="1.2em" />
+        </button>
+      </div>
+    </form>
   )
 }

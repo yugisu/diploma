@@ -1,5 +1,7 @@
-import React, { useLayoutEffect, useRef } from 'react'
-import { format } from 'date-fns'
+import React, { useLayoutEffect, useMemo, useRef } from 'react'
+import { format, isSameDay } from 'date-fns'
+
+import { Avatar } from 'components/Avatar/Avatar'
 
 type Props = {
   messages: {
@@ -14,34 +16,59 @@ type Props = {
 }
 
 export const MessageList = ({ messages }: Props) => {
-  const listRef = useRef<HTMLUListElement | null>(null)
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   useLayoutEffect(() => {
-    if (listRef.current) {
-      listRef.current.scrollTop = listRef.current.scrollHeight
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight
     }
   }, [messages])
 
+  const now = useMemo(() => new Date(), [])
+
   return (
-    <ul ref={listRef} className="flex-1 overflow-y-auto py-3 flex flex-col">
-      <li className="opacity-40">
-        <div className="pt-1 pb-3 px-4 flex flex-col">- Start of conversation</div>
-      </li>
+    <div ref={containerRef} className="flex-1 max-h-full flex flex-col overflow-y-auto justify-end">
+      <ul className="max-h-full pt-6 pb-3 flex flex-col gap-3">
+        {messages.map((message) => {
+          const createdAt = new Date(message.createdAt as number)
 
-      {messages.map((message) => (
-        <li key={message.id}>
-          <div className="py-1 px-4 flex flex-col">
-            <div>
-              <span className="text-sm font-bold">{message.createdByParticipant.name}</span>
-              <span className="ml-2 text-xs opacity-50">
-                {format(new Date(message.createdAt as string), 'H:mm d/M/y')}
-              </span>
-            </div>
+          let formattedCreatedDate: string
 
-            <span>{message.content}</span>
-          </div>
-        </li>
-      ))}
-    </ul>
+          if (isSameDay(createdAt, now)) {
+            formattedCreatedDate = format(createdAt, 'H:mm')
+          } else {
+            formattedCreatedDate = format(createdAt, 'H:mm d/M/y')
+          }
+
+          return (
+            <li key={message.id}>
+              <div className="w-max max-w-lg flex">
+                <Avatar />
+
+                <div className="flex flex-col justify-between px-3 py-1.5 bg-gray-600 bg-opacity-20 rounded">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-bold">{message.createdByParticipant.name}</span>
+                    <span className="flex-shrink-0 ml-2 text-right whitespace-nowrap text-gray-600 text-xs">
+                      {formattedCreatedDate}
+                    </span>
+                  </div>
+
+                  <p
+                    style={{
+                      overflowWrap: 'break-word',
+                      wordWrap: 'break-word',
+                      wordBreak: 'break-word',
+                    }}
+                    className="leading-tight"
+                  >
+                    {message.content}
+                  </p>
+                </div>
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
   )
 }

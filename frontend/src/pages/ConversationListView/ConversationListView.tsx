@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
-import { ChatAltIcon } from '@heroicons/react/solid'
 import { format, isSameDay } from 'date-fns'
+import { ChatAltIcon } from '@heroicons/react/solid'
 
 import { Conversation } from 'containers/Conversation/Conversation'
 
 import { Separator } from 'components/Common/Separator'
+import { Avatar } from 'components/Avatar/Avatar'
 
 import * as Gql from './ConversationListView.graphql.module'
 
@@ -49,9 +50,7 @@ export const ConversationListView = () => {
                       activeClassName="bg-gray-500 bg-opacity-10 hover:bg-opacity-10"
                       to={conversation.id}
                     >
-                      <div className="flex-shrink-0 mr-2 h-9 w-9 flex items-center justify-center rounded-full bg-gray-700">
-                        <ChatAltIcon className="inline align-text-bottom text-gray-500" height="1.2em" />
-                      </div>
+                      <Avatar icon={ChatAltIcon} />
 
                       <div className="flex-1 min-w-0 flex flex-col">
                         <div className="flex justify-between items-center">
