@@ -21,6 +21,7 @@ export class GeneralConversationResolver {
 
     return ctx.prisma.conversation.findMany({
       where: { activity: { participants: { some: { profileId: ctx.state.profileId } } } },
+      orderBy: { updatedAt: 'desc' },
     })
   }
 
@@ -39,7 +40,7 @@ export class GeneralConversationResolver {
       throw new Error('Failed to find related activity')
     }
 
-    return ctx.prisma.message.create({
+    const createdMessage = await ctx.prisma.message.create({
       data: {
         content,
         conversation: {
@@ -52,5 +53,9 @@ export class GeneralConversationResolver {
         },
       },
     })
+
+    await ctx.prisma.conversation.update({ where: { id: conversationId }, data: { updatedAt: new Date() } })
+
+    return createdMessage
   }
 }
