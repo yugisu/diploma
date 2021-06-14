@@ -1,11 +1,24 @@
+import { Activity } from '@prisma/client'
 import { Args, ArgsType, Ctx, Field, Mutation, Resolver } from 'type-graphql'
 
-import { Task, TaskStatus } from 'generated/typegraphql-prisma'
+import { ActivityUpdateInput, Task, TaskStatus, TaskUpdateInput } from 'generated/typegraphql-prisma'
 
 @ArgsType()
 class CreateTaskWithActivityArgs {
   @Field(() => TaskStatus, { nullable: false })
   taskStatus!: TaskStatus
+}
+
+@ArgsType()
+class EditTaskArgs {
+  @Field(() => String, { nullable: false })
+  taskId!: string
+
+  @Field(() => TaskUpdateInput, { nullable: true })
+  taskUpdates?: TaskUpdateInput
+
+  @Field(() => ActivityUpdateInput, { nullable: true })
+  activityUpdates?: ActivityUpdateInput
 }
 
 @Resolver()
@@ -46,5 +59,30 @@ export class GeneralTaskResolver {
         activity: true,
       },
     })
+  }
+
+  // TODO: Rewrite it to be more strict on what fields can be edited
+  @Mutation(() => Task)
+  async editTask(
+    @Ctx() ctx: GqlContext,
+    @Args() { taskId, taskUpdates, activityUpdates }: EditTaskArgs,
+  ): Promise<Task> {
+    if (!ctx.state.profileId) {
+      throw new Error('Unauthorized')
+    }
+
+    let task
+
+    if (taskUpdates) {
+      task = await ctx.prisma.task.update({ where: { id: taskId }, data: taskUpdates })
+    } else {
+      task = await ctx.prisma.task.findUnique({ where: { id: taskId } })
+    }
+
+    if (activityUpdates) {
+      await ctx.prisma.activity.update({ where: { id: task!.activityId }, data: activityUpdates })
+    }
+
+    return task!
   }
 }

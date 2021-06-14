@@ -31,3 +31,9 @@ mutation CreateConversationForTask($activityId: String!) {
     id
   }
 }
+
+mutation EditTask($taskId: String!, $taskUpdates: TaskUpdateInput, $activityUpdates: ActivityUpdateInput) {
+  editTask(taskId: $taskId, taskUpdates: $taskUpdates, activityUpdates: $activityUpdates) {
+    id
+  }
+}

@@ -94,6 +94,7 @@ module.exports = {
     },
     fontFamily: {
       sans: ['Roboto', 'sans-serif'],
+      montserrat: ['Montserrat', 'sans-serif'],
     },
     extend: {
       fontSize: {
