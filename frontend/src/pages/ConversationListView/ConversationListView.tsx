@@ -8,6 +8,7 @@ import { Conversation } from 'containers/Conversation/Conversation'
 
 import { Separator } from 'components/Common/Separator'
 import { Avatar } from 'components/Avatar/Avatar'
+import { Toolbar } from 'components/Toolbar/Toolbar'
 
 import * as Gql from './ConversationListView.graphql.module'
 
@@ -24,9 +25,11 @@ export const ConversationListView = () => {
     <>
       <div className="h-full flex-1 flex">
         <div className="z-10 w-96 flex-shrink-0 flex flex-col bg-gray-900 bg-opacity-50">
-          <div className="flex-shrink-0 h-11 py-1 px-4 flex items-center shadow-md bg-gray-800">
-            <span className="font-bold">All chats</span>
-          </div>
+          <Toolbar>
+            <div className="flex justify-between items-center">
+              <span className="font-bold">All chats</span>
+            </div>
+          </Toolbar>
 
           {conversationsList.length > 0 && (
             <ul className="flex-1 h-full overflow-y-auto overflow-x-hidden flex flex-col animate-appear">
@@ -50,7 +53,7 @@ export const ConversationListView = () => {
                       activeClassName="bg-gray-500 bg-opacity-10 hover:bg-opacity-10"
                       to={conversation.id}
                     >
-                      <Avatar icon={ChatAltIcon} />
+                      <Avatar className="mr-2" icon={ChatAltIcon} />
 
                       <div className="flex-1 min-w-0 flex flex-col">
                         <div className="flex justify-between items-center">

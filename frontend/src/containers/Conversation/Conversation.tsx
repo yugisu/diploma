@@ -6,10 +6,15 @@ import { ChatAltIcon, ExternalLinkIcon, UserGroupIcon } from '@heroicons/react/s
 import { MessageTextbox } from 'components/MessageTextbox/MessageTextbox'
 import { MessageList } from 'components/MessageList/MessageList'
 import { Avatar } from 'components/Avatar/Avatar'
+import { Toolbar } from 'components/Toolbar/Toolbar'
 
 import * as Gql from './Conversation.graphql.module'
 
-export const Conversation = () => {
+type Props = {
+  hideToolbar?: boolean
+}
+
+export const Conversation = ({ hideToolbar }: Props) => {
   const params = useParams()
 
   const { conversationId } = params
@@ -38,27 +43,31 @@ export const Conversation = () => {
 
   return (
     <div className="flex-1 h-full flex flex-col">
-      <div className="flex-shrink-0 h-11 py-1 px-4 flex justify-between items-center shadow-md bg-gray-800">
-        {conversation && (
-          <div className="animate-appear flex items-center">
-            <Avatar size={7} icon={ChatAltIcon} />
+      {!hideToolbar && (
+        <Toolbar>
+          <div className="flex justify-between items-center">
+            {conversation && (
+              <div className="animate-appear flex items-center">
+                <Avatar className="mr-2" size={7} icon={ChatAltIcon} />
 
-            <span className="font-bold text-gray-800 dark:text-gray-200">{conversation.activity.title}</span>
+                <span className="font-bold text-gray-800 dark:text-gray-200">{conversation.activity.title}</span>
 
-            {conversation.activity.task && (
-              <Link className="ml-2 font-bold text-gray-400" to={`/t/${conversation.activity.task.id}`}>
-                Task <ExternalLinkIcon className="inline align-text-bottom" height="1.2em" />
-              </Link>
+                {conversation.activity.task && (
+                  <Link className="ml-2 font-bold text-gray-400" to={`/t/${conversation.activity.task.id}`}>
+                    Task <ExternalLinkIcon className="inline align-text-bottom" height="1.2em" />
+                  </Link>
+                )}
+
+                <span className="ml-8 text-gray-400">
+                  <UserGroupIcon className="inline align-text-bottom mr-2 mb-0.5" height="1.2em" />
+
+                  {conversation.activity.participants.map((participant) => participant.name).join(', ')}
+                </span>
+              </div>
             )}
-
-            <span className="ml-8 text-gray-400">
-              <UserGroupIcon className="inline align-text-bottom mr-2 mb-0.5" height="1.2em" />
-
-              {conversation.activity.participants.map((participant) => participant.name).join(', ')}
-            </span>
           </div>
-        )}
-      </div>
+        </Toolbar>
+      )}
 
       <div className="max-h-full min-h-0 flex-1 w-full max-w-4xl self-center flex flex-col justify-end">
         {conversation && (

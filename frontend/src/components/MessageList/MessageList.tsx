@@ -43,7 +43,7 @@ export const MessageList = ({ messages }: Props) => {
           return (
             <li key={message.id}>
               <div className="w-max max-w-lg flex">
-                <Avatar />
+                <Avatar className="mr-2" />
 
                 <div className="flex flex-col justify-between px-3 py-1.5 bg-gray-600 bg-opacity-20 rounded">
                   <div className="flex justify-between items-center">
