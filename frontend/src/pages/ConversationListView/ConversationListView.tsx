@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { NavLink, Route, Routes } from 'react-router-dom'
+import { Navigate, NavLink, Route, Routes } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { format, isSameDay } from 'date-fns'
 import { ChatAltIcon } from '@heroicons/react/solid'
@@ -90,9 +90,13 @@ export const ConversationListView = () => {
           <Route
             path="/"
             element={
-              <div className="flex-1 h-full flex flex-col">
-                <div className="flex-shrink-0 h-11 py-1 px-4 flex justify-between items-center shadow-md bg-gray-800" />
-              </div>
+              <>
+                {conversationsList.length > 0 && <Navigate to={conversationsList[0]!.id} />}
+
+                <div className="flex-1 h-full flex flex-col">
+                  <div className="flex-shrink-0 h-11 py-1 px-4 flex justify-between items-center shadow-md bg-gray-800" />
+                </div>
+              </>
             }
           />
         </Routes>
