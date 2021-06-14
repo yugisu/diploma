@@ -64,7 +64,7 @@ export const DetailedTaskView = () => {
 
     const variables: Gql.EditTaskMutationVariables = { taskId: task.id }
 
-    if (taskDraftEdits.description) {
+    if (taskDraftEdits.description !== undefined) {
       variables.taskUpdates ??= {}
       variables.taskUpdates.body = { set: taskDraftEdits.description }
     }
@@ -175,6 +175,7 @@ export const DetailedTaskView = () => {
                   value={taskDraftEdits.description ?? task.body ?? ''}
                   onChange={(e) => editTaskDescription(e.target.value)}
                   className="resize-none h-72 w-full max-w-3xl py-2 px-3 shadow-sm rounded focus:placeholder-opacity-90 focus:bg-transparent focus:outline-none border border-solid focus:ring bg-gray-400 bg-opacity-10 border-gray-400 border-opacity-20 focus:border-primary focus:border-opacity-100 ring-primary ring-opacity-10 placeholder-gray-400 placeholder-opacity-50"
+                  placeholder="Task description"
                 />
               ) : (
                 <div>{task.body || <h3 className="text-gray-500">No description provided</h3>}</div>
