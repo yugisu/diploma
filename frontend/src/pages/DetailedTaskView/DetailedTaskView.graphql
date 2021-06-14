@@ -18,6 +18,16 @@ query GetTaskDetails($taskId: String!) {
         id
         name
       }
+
+      conversation {
+        id
+      }
     }
+  }
+}
+
+mutation CreateConversationForTask($activityId: String!) {
+  createConversation(data: { activity: { connect: { id: $activityId } } }) {
+    id
   }
 }

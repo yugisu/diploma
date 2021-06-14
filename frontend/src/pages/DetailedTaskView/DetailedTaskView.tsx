@@ -1,5 +1,5 @@
 import React from 'react'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { Link, useParams } from 'react-router-dom'
 import { format } from 'date-fns'
 import { ChevronDownIcon, ChevronLeftIcon, PencilAltIcon } from '@heroicons/react/solid'
@@ -25,6 +25,28 @@ export const DetailedTaskView = () => {
   })
   const task = taskDetailsQuery.data?.task
 
+  const [runCreateConversationMutation, createConversationMutation] = useMutation(Gql.CreateConversationForTaskDocument)
+
+  const startConversation = () => {
+    if (!task || task.activity.conversation?.id) {
+      return
+    }
+
+    runCreateConversationMutation({
+      variables: { activityId: task.activity.id },
+      update: (cache, result) => {
+        if (!result.data || !task) {
+          return
+        }
+
+        const newConversationId = result.data.createConversation.id
+
+        const updatedTask = { ...task, activity: { ...task.activity, conversation: { id: newConversationId } } }
+        cache.writeQuery({ query: Gql.GetTaskDetailsDocument, data: { task: updatedTask } })
+      },
+    })
+  }
+
   return (
     <div className="h-full flex flex-col">
       <Toolbar>
@@ -36,43 +58,55 @@ export const DetailedTaskView = () => {
       </Toolbar>
 
       {task && (
-        <article className="max-w-7xl flex-1 py-12 p-16 flex flex-col gap-16">
-          <div>
-            <h1 className="text-5xl mb-4">{task.activity.title}</h1>
+        <div className="overflow-auto">
+          <article className="max-w-7xl flex-1 py-12 p-16 flex flex-col gap-16 overflow-auto">
+            <div>
+              <h1 className="text-5xl mb-4">{task.activity.title}</h1>
 
-            <h6 className="font-normal flex items-center gap-4">
-              <Button compact>
-                {taskStatusMap[task.status]} <ChevronDownIcon className="inline align-text-bottom" height="1.2em" />
-              </Button>
-              <Button icon={PencilAltIcon} compact>
-                Edit
-              </Button>
-              <div className="flex items-center gap-2">
-                Owner: <ProfileChip name={task.activity.owner.name} />
-              </div>
-              <div className="flex items-center gap-2">
-                Assignees:
-                {task.activity.assignees.length > 0 ? (
-                  task.activity.assignees.map((p) => <ProfileChip name={p.name} key={p.id} />)
-                ) : (
-                  <span>None</span>
-                )}
-              </div>
-              <span>Created at: {format(new Date(task.createdAt as string), 'H:mm d/M/y')}</span>
-            </h6>
-          </div>
+              <h6 className="font-normal flex items-center gap-4">
+                <Button compact>
+                  {taskStatusMap[task.status]} <ChevronDownIcon className="inline align-text-bottom" height="1.2em" />
+                </Button>
+                <Button icon={PencilAltIcon} compact>
+                  Edit
+                </Button>
+                <div className="flex items-center gap-2">
+                  Owner: <ProfileChip name={task.activity.owner.name} />
+                </div>
+                <div className="flex items-center gap-2">
+                  Assignees:
+                  {task.activity.assignees.length > 0 ? (
+                    task.activity.assignees.map((p) => <ProfileChip name={p.name} key={p.id} />)
+                  ) : (
+                    <span>None</span>
+                  )}
+                </div>
+                <span>Created at: {format(new Date(task.createdAt as string), 'H:mm d/M/y')}</span>
+              </h6>
+            </div>
 
-          <section>
-            <h2 className="text-3xl mb-3">Description</h2>
-            <div>{task.body}</div>
-          </section>
+            <section>
+              <h2 className="text-3xl mb-3">Description</h2>
+              <div>{task.body || <h3 className="text-gray-500">No description provided</h3>}</div>
+            </section>
 
-          <section>
-            <h2 className="text-3xl mb-3">Conversation</h2>
+            <section className="max-w-3xl">
+              <h2 className="text-3xl ">Conversation</h2>
 
-            <Conversation hideToolbar />
-          </section>
-        </article>
+              {task.activity.conversation ? (
+                <Conversation conversationId={task.activity.conversation?.id} hideToolbar />
+              ) : (
+                <Button
+                  onClick={startConversation}
+                  loading={createConversationMutation.loading}
+                  disabled={createConversationMutation.loading}
+                >
+                  Create conversation
+                </Button>
+              )}
+            </section>
+          </article>
+        </div>
       )}
     </div>
   )

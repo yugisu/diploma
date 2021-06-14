@@ -11,13 +11,15 @@ import { Toolbar } from 'components/Toolbar/Toolbar'
 import * as Gql from './Conversation.graphql.module'
 
 type Props = {
+  conversationId?: string
+
   hideToolbar?: boolean
 }
 
-export const Conversation = ({ hideToolbar }: Props) => {
+export const Conversation = ({ conversationId: conversationIdFromProps, hideToolbar }: Props) => {
   const params = useParams()
 
-  const { conversationId } = params
+  const conversationId = conversationIdFromProps || params.conversationId
 
   // TODO: Re-write this query to use websockets and subscription instead of polling
   const conversationQuery = useQuery(Gql.GetConversationDocument, {
